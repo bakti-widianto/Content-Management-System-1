@@ -91,7 +91,7 @@ router.post('/login', function (req, res, next) {
               response.token = data.token;
               response.data.email = email;
               response.message = "Login success!"
-              res.status(200).json(response)
+              res.status(201).json(response)
             } else {
               const newToken = jwt.sign({ email: data.email }, 'iniRahasiaYa');
               Users.updateOne({ email: data.email }, { token: newToken })
@@ -99,7 +99,7 @@ router.post('/login', function (req, res, next) {
                   response.token = newToken;
                   response.email = data.email;
                   response.message = "login success with new token!";
-                  res.status(200).json(response);
+                  res.status(201).json(response);
                 })
                 .catch(err => {
                   response.message = "Update token failed"
@@ -136,13 +136,13 @@ router.post('/check', function (req, res, next) {
       .then(result => {
         if (result) {
           response.valid = true;
-          res.json(response);
+          res.status(200).json(response);
         } else {
-          res.json(response);
+          res.status(500).json(response);
         }
       })
       .catch(err => {
-        res.json(response);
+        res.status(500).json(response);
       })
   }
 })
@@ -161,10 +161,10 @@ router.get('/logout', function (req, res) {
       .then(user => {
         if (user) {
           response.logout = true;
-          res.json(response);
+          res.status(200).json(response);
         }
         else {
-          res.json(response);
+          res.status(500).json(response);
         }
       })
   }
