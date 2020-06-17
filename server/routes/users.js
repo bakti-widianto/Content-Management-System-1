@@ -30,29 +30,26 @@ router.post('/register', function (req, res, next) {
   }
   if (password == retypepassword) {
     Users.findOne({ email })
-      .then(registeredEmail => {
-        if (registeredEmail) {
+      .then(result => {
+        if (result) {
           response.message = 'Email already exist';
           return res.status(500).json(response);
         } else {
-          bcrypt.hash(password, saltRounds)
-            .then(hash => {
-              var token = jwt.sign({ email: email }, rahasia);
-              let user = new Users({
-                email: email,
-                password: hash,
-                token: token
-              })
-              user.save()
-                .then(data => {
-                  response.message = "register success";
-                  response.data.email = email;
-                  response.token = token;
-                  res.status(201).json(response);
-                })
-                .catch(err => {
-                  console.log(err);
-                })
+          var token = jwt.sign({ email: email }, rahasia);
+          let user = new Users({
+            email: email,
+            password: password,
+            token: token
+          })
+          user.save()
+            .then(data => {
+              response.message = "register success";
+              response.data.email = email;
+              response.token = token;
+              res.status(201).json(response);
+            })
+            .catch(err => {
+              console.log(err);
             })
             .catch(err => {
               res.status(500).json({
@@ -73,6 +70,9 @@ router.post('/register', function (req, res, next) {
   }
 });
 
+
+
+
 // ================= POST LOGIN ======================
 router.post('/login', function (req, res, next) {
   let { email, password } = req.body;
@@ -81,12 +81,11 @@ router.post('/login', function (req, res, next) {
     data: {},
     token: ""
   }
+
   Users.findOne({ email })
     .then(data => {
-      // console.log(data);
-      bcrypt.compareSync(password, data.password)
+      bcrypt.compare(password, data.password)
         .then(isPasswordTrue => {
-          console.log(isPasswordTrue)
           if (isPasswordTrue) {
             if (data.token) {
               response.token = data.token;
@@ -94,7 +93,7 @@ router.post('/login', function (req, res, next) {
               response.message = "Login success!"
               res.status(201).json(response)
             } else {
-              const newToken = data.getToken();
+              const newToken = jwt.sign({ email: data.email }, rahasia)
               Users.updateOne({ email: data.email }, { token: newToken })
                 .then(() => {
                   response.token = newToken;
@@ -104,7 +103,7 @@ router.post('/login', function (req, res, next) {
                 })
                 .catch(err => {
                   response.message = "Update token failed"
-                  res.status(200).json(response)
+                  res.status(200).json(response);
                 })
             }
           } else {

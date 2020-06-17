@@ -17,14 +17,11 @@ userSchema.pre('save', function (next) {
             console.log(err);
         else {
             this.password = hash;
-            this.token = this.getToken();
+            // this.token = this.getToken();
             next();
         }
     })
 });
 
-userSchema.methods.getToken = function () {
-    return jwt.sign({email: this.email}, rahasia)
-}
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('Users', userSchema);
