@@ -4,7 +4,6 @@ var jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const Users = require('../models/Users');
-const { token } = require('morgan');
 
 
 /* GET users listing. */
@@ -125,13 +124,13 @@ router.post('/login', function (req, res, next) {
 // ================= POST CHECK TOKEN ======================
 
 router.post('/check', function (req, res, next) {
-  let header = req.headers.authorization;
+  let token = req.headers.authorization;
   let response = {
     valid: false
   };
 
-  if (typeof header !== undefined) {
-    const decoded = jwt.verify(header, 'iniRahasiaYa');
+  if (typeof token !== undefined) {
+    const decoded = jwt.verify(token, 'iniRahasiaYa');
     Users.find({ email: decoded.email })
       .then(result => {
         if (result) {
@@ -149,15 +148,15 @@ router.post('/check', function (req, res, next) {
 
 // ================= DESTROY TOKEN ======================
 router.get('/logout', function (req, res) {
-  // let header = req.headers.authorization;
-  let token = req.body.token;
+  let token = req.headers.authorization;
+  // let token = req.body.token;
   let response = {
     logout: false
   }
-  if (typeof token !== undefined) {
+  if (token) {
     const decoded = jwt.verify(token, 'iniRahasiaYa');
     Users.findOneAndUpdate({ email: decoded.email }, { token: undefined })
-      .exec() // need a fully-fledged promise, use the .exec() function.
+      // .exec() // need a fully-fledged promise, use the .exec() function.
       .then(user => {
         if (user) {
           response.logout = true;
@@ -167,16 +166,18 @@ router.get('/logout', function (req, res) {
           res.status(500).json(response);
         }
       })
+  } else {
+    res.status(500).json(response);
   }
 })
 
 
 // testing jwt-verify to decode token
-router.get('/test',function(req,res){
-  let token = req.body.token;
+router.get('/test', function (req, res) {
+  let token = req.headers.authorization;
   const decoded = jwt.verify(token, 'iniRahasiaYa');
   res.json({
-    token : token,
+    token: token,
     decoded
   })
 })
