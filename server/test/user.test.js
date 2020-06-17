@@ -95,27 +95,27 @@ describe('users', function () {
    })
 
    // test check token
-   // chai.request(server)
-   //    .post('/api/user/login')
-   //    .send({
-   //       'email': "dumadoniagara@gmail.com",
-   //       'password': "leb4hGant3nG"
-   //    })
-   //    .end(function (err, res) {
-   //       // console.log(res);
-   //       const token = res.body.token;
-   //       chai.request(server)
-   //          .post('/api/user/check')
-   //          .set('Authorization', token)
-   //          .end(function (err, res) {
-   //             res.should.have.status(200);
-   //             res.should.be.json;
-   //             res.body.should.be.a('object');
-   //             res.body.should.have.property('valid');
-   //             res.body.valid.should.equal(true);
-   //             done()
-   //          });
-   //    })
+   chai.request(server)
+      .post('/api/users/login')
+      .send({
+         'email': 'dumadoniagara@gmail.com',
+         'password': 'leb4hGant3nG'
+      })
+      .end(function (err, res) {
+         // console.log(res.body);
+         // const token = res.body.token;
+         // chai.request(server)
+         //          .post('/api/users/check')
+         //          .set('authorization', token)
+         //          .end(function (err, response) {
+         //             response.should.have.status(200);
+         //             ressponse.should.be.json;
+         //             ressponse.body.should.be.a('object');
+         //             ressponse.body.should.have.property('valid');
+         //             ressponse.body.valid.should.equal(true);
+         //             done()
+         //          });
+      })
 
    // test logout
    // chai.request(server)
@@ -129,7 +129,7 @@ describe('users', function () {
    //       const token = res.body.token;
    //       chai.request(server)
    //          .get('/api/user/check')
-   //          .set('Authorization', token)
+   //          .set('authorization', token)
    //          .end(function (err, res) {
    //             console.log(res);
    //             res.should.have.status(200);

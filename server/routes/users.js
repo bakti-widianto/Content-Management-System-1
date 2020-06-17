@@ -4,6 +4,7 @@ var jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const Users = require('../models/Users');
+const rahasia = 'iniRahasiaYa';
 
 
 /* GET users listing. */
@@ -36,7 +37,7 @@ router.post('/register', function (req, res, next) {
         } else {
           bcrypt.hash(password, saltRounds)
             .then(hash => {
-              var token = jwt.sign({ email: email }, 'iniRahasiaYa');
+              var token = jwt.sign({ email: email }, rahasia);
               let user = new Users({
                 email: email,
                 password: hash,
@@ -82,9 +83,10 @@ router.post('/login', function (req, res, next) {
   }
   Users.findOne({ email })
     .then(data => {
-      console.log(password, data.password);
-      bcrypt.compare(password, data.password)
+      // console.log(data);
+      bcrypt.compareSync(password, data.password)
         .then(isPasswordTrue => {
+          console.log(isPasswordTrue)
           if (isPasswordTrue) {
             if (data.token) {
               response.token = data.token;
@@ -92,7 +94,7 @@ router.post('/login', function (req, res, next) {
               response.message = "Login success!"
               res.status(201).json(response)
             } else {
-              const newToken = jwt.sign({ email: data.email }, 'iniRahasiaYa');
+              const newToken = data.getToken();
               Users.updateOne({ email: data.email }, { token: newToken })
                 .then(() => {
                   response.token = newToken;
@@ -130,7 +132,7 @@ router.post('/login', function (req, res, next) {
 //   };
 
 //   if (typeof token !== undefined) {
-//     const decoded = jwt.verify(token, 'iniRahasiaYa');
+//     const decoded = jwt.verify(token, rahasia);
 //     Users.find({ email: decoded.email })
 //       .then(result => {
 //         if (result) {
@@ -154,7 +156,7 @@ router.post('/login', function (req, res, next) {
 //     logout: false
 //   }
 //   if (token) {
-//     const decoded = jwt.verify(token, 'iniRahasiaYa');
+//     const decoded = jwt.verify(token, rahasia);
 //     Users.findOneAndUpdate({ email: decoded.email }, { token: undefined })
 //       // .exec() // need a fully-fledged promise, use the .exec() function.
 //       .then(user => {
@@ -175,7 +177,7 @@ router.post('/login', function (req, res, next) {
 // testing jwt-verify to decode token
 // router.get('/test', function (req, res) {
 //   let token = req.headers.authorization;
-//   const decoded = jwt.verify(token, 'iniRahasiaYa');
+//   const decoded = jwt.verify(token, rahasia);
 //   res.json({
 //     token: token,
 //     decoded
