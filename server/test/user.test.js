@@ -8,12 +8,13 @@ const should = chai.should();
 chai.use(chaiHTTP);
 
 describe('users', function () {
+   User.collection.drop();
 
    beforeEach(function (done) {
       let user = new User({
          email: "dumadoniagara@gmail.com",
          password: "leb4hGant3nG",
-         token: ""
+         token: ''
       });
 
       user.save(function (err) {
@@ -52,8 +53,9 @@ describe('users', function () {
       chai.request(server)
          .post('/api/users/register')
          .send({
-            'email': 'saptodoang@gmail.com',
-            'password': 'sapt0GanTenG50'
+            'email': 'admin01@gmail.com',
+            'password': '010203',
+            'retypepassword': '010203'
          })
          .end(function (err, res) {
             res.should.have.status(201);
@@ -63,7 +65,7 @@ describe('users', function () {
             res.body.should.have.property('token');
             expect(res.body.token).to.exist;
             res.body.message.should.equal('register success');
-            res.body.data.email.should.equal('saptodoang@gmail.com');
+            res.body.data.email.should.equal('admin01@gmail.com');
             done();
          })
    })
@@ -73,10 +75,11 @@ describe('users', function () {
       chai.request(server)
          .post('/api/users/login')
          .send({
-            'email': "dumadoniagara@gmail.com",
-            'password': "leb4hGant3nG"
+            'email': 'dumadoniagara@gmail.com',
+            'password': 'leb4hGant3nG'
          })
          .end(function (err, res) {
+            // console.log(res.body);
             res.should.have.status(201);
             res.should.be.json;
             res.body.should.be.a('object');
@@ -87,11 +90,55 @@ describe('users', function () {
             expect(res.body.token).to.exist;
             res.body.data.should.be.a('object');
             res.body.data.email.should.equal('dumadoniagara@gmail.com');
+            done()
          })
    })
 
    // test check token
+   // chai.request(server)
+   //    .post('/api/user/login')
+   //    .send({
+   //       'email': "dumadoniagara@gmail.com",
+   //       'password': "leb4hGant3nG"
+   //    })
+   //    .end(function (err, res) {
+   //       // console.log(res);
+   //       const token = res.body.token;
+   //       chai.request(server)
+   //          .post('/api/user/check')
+   //          .set('Authorization', token)
+   //          .end(function (err, res) {
+   //             res.should.have.status(200);
+   //             res.should.be.json;
+   //             res.body.should.be.a('object');
+   //             res.body.should.have.property('valid');
+   //             res.body.valid.should.equal(true);
+   //             done()
+   //          });
+   //    })
 
-
+   // test logout
+   // chai.request(server)
+   //    .post('/api/user/login')
+   //    .send({
+   //       'email': "dumadoniagara@gmail.com",
+   //       'password': "leb4hGant3nG"
+   //    })
+   //    .end(function (err, res) {
+   //       console.log(res);
+   //       const token = res.body.token;
+   //       chai.request(server)
+   //          .get('/api/user/check')
+   //          .set('Authorization', token)
+   //          .end(function (err, res) {
+   //             console.log(res);
+   //             res.should.have.status(200);
+   //             res.should.be.json;
+   //             res.body.should.be.a('object');
+   //             res.body.should.have.property('logout');
+   //             res.body.valid.should.equal(true);
+   //             done()
+   //          });
+   //    })
 
 });

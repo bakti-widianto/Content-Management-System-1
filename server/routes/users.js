@@ -80,9 +80,9 @@ router.post('/login', function (req, res, next) {
     data: {},
     token: ""
   }
-
   Users.findOne({ email })
     .then(data => {
+      console.log(password, data.password);
       bcrypt.compare(password, data.password)
         .then(isPasswordTrue => {
           if (isPasswordTrue) {
@@ -96,18 +96,18 @@ router.post('/login', function (req, res, next) {
               Users.updateOne({ email: data.email }, { token: newToken })
                 .then(() => {
                   response.token = newToken;
-                  response.email = data.email;
-                  response.message = "login success with new token!";
+                  response.data.email = data.email;
+                  response.message = "Login success!";
                   res.status(201).json(response);
                 })
                 .catch(err => {
                   response.message = "Update token failed"
-                  res.status(500).json(response)
+                  res.status(200).json(response)
                 })
             }
           } else {
             response.message = "Authentication failed";
-            res.status(500).json(response);
+            res.status(200).json(response);
           }
         })
         .catch(err => {
@@ -123,64 +123,64 @@ router.post('/login', function (req, res, next) {
 
 // ================= POST CHECK TOKEN ======================
 
-router.post('/check', function (req, res, next) {
-  let token = req.headers.authorization;
-  let response = {
-    valid: false
-  };
+// router.post('/check', function (req, res, next) {
+//   let token = req.headers.authorization;
+//   let response = {
+//     valid: false
+//   };
 
-  if (typeof token !== undefined) {
-    const decoded = jwt.verify(token, 'iniRahasiaYa');
-    Users.find({ email: decoded.email })
-      .then(result => {
-        if (result) {
-          response.valid = true;
-          res.status(200).json(response);
-        } else {
-          res.status(500).json(response);
-        }
-      })
-      .catch(err => {
-        res.status(500).json(response);
-      })
-  }
-})
+//   if (typeof token !== undefined) {
+//     const decoded = jwt.verify(token, 'iniRahasiaYa');
+//     Users.find({ email: decoded.email })
+//       .then(result => {
+//         if (result) {
+//           response.valid = true;
+//           res.status(200).json(response);
+//         } else {
+//           res.status(500).json(response);
+//         }
+//       })
+//       .catch(err => {
+//         res.status(500).json(response);
+//       })
+//   }
+// })
 
 // ================= DESTROY TOKEN ======================
-router.get('/logout', function (req, res) {
-  let token = req.headers.authorization;
-  // let token = req.body.token;
-  let response = {
-    logout: false
-  }
-  if (token) {
-    const decoded = jwt.verify(token, 'iniRahasiaYa');
-    Users.findOneAndUpdate({ email: decoded.email }, { token: undefined })
-      // .exec() // need a fully-fledged promise, use the .exec() function.
-      .then(user => {
-        if (user) {
-          response.logout = true;
-          res.status(200).json(response);
-        }
-        else {
-          res.status(500).json(response);
-        }
-      })
-  } else {
-    res.status(500).json(response);
-  }
-})
+// router.get('/logout', function (req, res) {
+//   let token = req.headers.authorization;
+//   // let token = req.body.token;
+//   let response = {
+//     logout: false
+//   }
+//   if (token) {
+//     const decoded = jwt.verify(token, 'iniRahasiaYa');
+//     Users.findOneAndUpdate({ email: decoded.email }, { token: undefined })
+//       // .exec() // need a fully-fledged promise, use the .exec() function.
+//       .then(user => {
+//         if (user) {
+//           response.logout = true;
+//           res.status(200).json(response);
+//         }
+//         else {
+//           res.status(500).json(response);
+//         }
+//       })
+//   } else {
+//     res.status(500).json(response);
+//   }
+// })
 
 
 // testing jwt-verify to decode token
-router.get('/test', function (req, res) {
-  let token = req.headers.authorization;
-  const decoded = jwt.verify(token, 'iniRahasiaYa');
-  res.json({
-    token: token,
-    decoded
-  })
-})
+// router.get('/test', function (req, res) {
+//   let token = req.headers.authorization;
+//   const decoded = jwt.verify(token, 'iniRahasiaYa');
+//   res.json({
+//     token: token,
+//     decoded
+//   })
+// })
 
 
 module.exports = router;

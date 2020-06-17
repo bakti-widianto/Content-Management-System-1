@@ -10,7 +10,6 @@ var usersRouter = require('./routes/users');
 var dataRouter = require('./routes/data');
 // var dataDateRouter = require('./routes/data');
 
-
 var app = express();
 
 app.use(logger('dev'));
