@@ -160,7 +160,7 @@ describe('users', function () {
    })
 
    // testing browse
-   it('testing BROWSE data date dengan metode POST', function (done) {
+   it('testing BROWSE data date path /api/datadate/<id> dengan metode POST', function (done) {
       chai.request(server)
          .post('/api/datadate/')
          .send({
@@ -180,23 +180,31 @@ describe('users', function () {
                      .end(function (err, res3) {
                         chai.request(server)
                            .post(`/api/datadate/search`)
-                           .send({ 'frequency': 1.1 })
+                           .send({ 'frequency': 1.1 }) //browse with frequency
                            .end(function (err, res4) {
                               res4.should.have.status(200);
                               res4.should.be.json;
                               res4.body.should.be.a('array');
                               res4.body.length.should.equal(2);
+                              res4.body[0].should.have.property('_id');
+                              res4.body[0].should.have.property('letter');
+                              res4.body[0].frequency.should.equal(1.1);
                               chai.request(server)
                                  .post(`/api/datadate/search`)
-                                 .send({ 'letter': '2001-02-02' })
+                                 .send({ 'letter': '2001-02-02' }) //browse with letter
                                  .end(function (err, res5) {
                                     res5.should.have.status(200);
                                     res5.should.be.json;
                                     res5.body.should.be.a('array');
                                     res5.body.length.should.equal(1);
+                                    res5.body[0].should.have.property('_id');
+                                    res5.body[0].should.have.property('letter');
+                                    res5.body[0].should.have.property('frequency');
+                                    res5.body[0].letter.should.equal('2001-02-02');
+                                    res5.body[0].frequency.should.equal(1.1);
                                     chai.request(server)
                                        .post(`/api/datadate/search`)
-                                       .send({ 'frequency': '1.2' })
+                                       .send({ 'frequency': '1.1', 'letter': '2001-02-02' })
                                        .end(function (err, res6) {
                                           res6.should.have.status(200);
                                           res6.should.be.json;
@@ -205,6 +213,8 @@ describe('users', function () {
                                           res6.body[0].should.have.property('_id');
                                           res6.body[0].should.have.property('letter');
                                           res6.body[0].should.have.property('frequency');
+                                          res6.body[0].letter.should.equal('2001-02-02');
+                                          res6.body[0].frequency.should.equal(1.1);
                                           done()
                                        })
                                  })
@@ -213,8 +223,5 @@ describe('users', function () {
                })
          })
    })
-
-
-
 
 });
