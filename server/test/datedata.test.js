@@ -34,7 +34,6 @@ describe('users', function () {
       chai.request(server)
          .get('/api/datadate/')
          .end(function (err, res) {
-            console.log('ini respon get data-date :', res.body);
             res.should.have.status(200);
             res.body.should.be.a('array');
             res.body[0].should.have.property('_id');
@@ -81,7 +80,6 @@ describe('users', function () {
                   frequency: 1.1
                })
                .end(function (err, response) {
-                  console.log('testing put :', res.body);
                   response.should.have.status(201);
                   response.should.be.json;
                   response.body.should.be.a('object');
@@ -114,7 +112,6 @@ describe('users', function () {
             chai.request(server)
                .delete(`/api/datadate/${id}`)
                .end(function (err, response) {
-                  console.log('response datadate', response.body);
                   response.should.have.status(200);
                   response.should.be.json;
                   response.body.should.be.a('object');
@@ -130,54 +127,94 @@ describe('users', function () {
          })
    })
 
+   // testing find Data-Date menggunakan metode GET
+   it('testing FIND data date dengan metode GET', function (done) {
+      chai.request(server)
+         .post('/api/datadate/')
+         .send({
+            'letter': '2015-11-30',
+            'frequency': 1.1
+         })
+         .end(function (err, res) {
+            const id = res.body.data._id
+            chai.request(server)
+               .get(`/api/datadate/${id}`)
+               .end(function (err, response) {
+                  response.should.have.status(200);
+                  response.should.be.json;
+                  response.body.should.be.a('object');
+                  response.body.should.have.property('success');
+                  response.body.should.have.property('message');
+                  response.body.should.have.property('data');
+                  response.body.data.should.have.property('_id');
+                  response.body.data.should.have.property('letter');
+                  response.body.data.should.have.property('frequency');
+                  response.body.success.should.equal(true);
+                  response.body.message.should.equal("data found");
+                  response.body.data._id.should.equal(`${id}`);
+                  response.body.data.letter.should.equal("2015-11-30");
+                  response.body.data.frequency.should.equal(1.1);
+                  done()
+               })
+         })
+   })
+
+   // testing browse
+   it('testing BROWSE data date dengan metode POST', function (done) {
+      chai.request(server)
+         .post('/api/datadate/')
+         .send({
+            'letter': '2001-01-01',
+            'frequency': 1.1
+         })
+         .end(function (err, res1) {
+            chai.request(server)
+               .post('/api/datadate/')
+               .send({
+                  'letter': '2001-02-02',
+                  'frequency': 1.1
+               })
+               .end(function (err, res2) {
+                  chai.request(server)
+                     .get('/api/datadate')
+                     .end(function (err, res3) {
+                        chai.request(server)
+                           .post(`/api/datadate/search`)
+                           .send({ 'frequency': 1.1 })
+                           .end(function (err, res4) {
+                              res4.should.have.status(200);
+                              res4.should.be.json;
+                              res4.body.should.be.a('array');
+                              res4.body.length.should.equal(2);
+                              chai.request(server)
+                                 .post(`/api/datadate/search`)
+                                 .send({ 'letter': '2001-02-02' })
+                                 .end(function (err, res5) {
+                                    res5.should.have.status(200);
+                                    res5.should.be.json;
+                                    res5.body.should.be.a('array');
+                                    res5.body.length.should.equal(1);
+                                    chai.request(server)
+                                       .post(`/api/datadate/search`)
+                                       .send({ 'frequency': '1.2' })
+                                       .end(function (err, res6) {
+                                          res6.should.have.status(200);
+                                          res6.should.be.json;
+                                          res6.body.should.be.a('array');
+                                          res6.body.length.should.equal(1);
+                                          res6.body[0].should.have.property('_id');
+                                          res6.body[0].should.have.property('letter');
+                                          res6.body[0].should.have.property('frequency');
+                                          done()
+                                       })
+                                 })
+                           })
+                     })
+               })
+         })
+   })
 
 
 
-   // it('seharusnya berhasil destroy token dengan metode GET', function (done) {
-   //    chai.request(server)
-   //       .post('/api/users/login')
-   //       .send({
-   //          'email': 'dumadoniagara@gmail.com',
-   //          'password': 'leb4hGant3nG'
-   //       })
-   //       .end(function (err, res) {
-   //          const token = res.body.token;
-   //          chai.request(server)
-   //             .get('/api/users/logout')
-   //             .set('Authorization', token)
-   //             .end(function (err, response) {
-   //                response.should.have.status(200);
-   //                response.should.be.json;
-   //                response.body.should.be.a('object');
-   //                response.body.should.have.property('logout');
-   //                response.body.logout.should.equal(true);
-   //                done()
-   //             });
-   //       })
-   // })
-
-   // test logout
-   // chai.request(server)
-   //    .post('/api/user/login')
-   //    .send({
-   //       'email': "dumadoniagara@gmail.com",
-   //       'password': "leb4hGant3nG"
-   //    })
-   //    .end(function (err, res) {
-   //       console.log(res);
-   //       const token = res.body.token;
-   //       chai.request(server)
-   //          .get('/api/user/check')
-   //          .set('authorization', token)
-   //          .end(function (err, res) {
-   //             console.log(res);
-   //             res.should.have.status(200);
-   //             res.should.be.json;
-   //             res.body.should.be.a('object');
-   //             res.body.should.have.property('logout');
-   //             res.body.valid.should.equal(true);
-   //             done()
-   //          });
-   //    })
 
 });

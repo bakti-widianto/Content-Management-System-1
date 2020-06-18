@@ -81,11 +81,8 @@ router.post('/login', function (req, res, next) {
     data: {},
     token: ""
   }
-  console.log(email, password);
-
   Users.findOne({ email })
     .then(data => {
-      // console.log(data);
       bcrypt.compare(password, data.password)
         .then(isPasswordTrue => {
           if (isPasswordTrue) {

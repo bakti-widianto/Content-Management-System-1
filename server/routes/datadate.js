@@ -30,6 +30,7 @@ router.post('/', function (req, res) {
       })
 })
 
+// router read
 router.get('/', function (req, res) {
    let response = [];
    DataDate.find()
@@ -48,6 +49,7 @@ router.get('/', function (req, res) {
       })
 })
 
+// router edit
 router.put('/:id', function (req, res) {
    let response = {
       success: false,
@@ -70,6 +72,7 @@ router.put('/:id', function (req, res) {
       .catch(err => res.status(500).json(response));
 })
 
+// router delete
 router.delete('/:id', function (req, res) {
    let response = {
       success: false,
@@ -87,6 +90,43 @@ router.delete('/:id', function (req, res) {
       })
       .catch(err => res.status(500).json(response))
 })
+
+// router find
+router.get('/:id', function (req, res) {
+   let response = {
+      success: false,
+      message: "data not found",
+      data: {}
+   }
+   DataDate.findOne({ _id: req.params.id })
+      .then(data => {
+         response.success = true;
+         response.message = "data found";
+         response.data._id = data._id;
+         response.data.letter = data.letter;
+         response.data.frequency = data.frequency;
+         res.status(200).json(response)
+      })
+      .catch(err => res.status(500).json(response))
+})
+
+router.post('/search', function (req, res) {
+   let response = [];
+   DataDate.find(req.body) // ini udah termasuk logika browse pake atau. Meskipun salah satu aja bakal dapet
+      .then(data => {
+         response = data.map(item => {
+            return {
+               _id: item._id,
+               letter: item.letter,
+               frequency: item.frequency
+            }
+         })
+         res.status(200).json(response);
+      })
+      .catch(err => res.status(500).json(response))
+})
+
+
 
 
 module.exports = router;
