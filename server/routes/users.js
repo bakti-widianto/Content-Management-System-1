@@ -175,6 +175,7 @@ router.get('/logout', function (req, res) {
 router.get('/test',function(req,res){
   let token = req.body.token;
   const decoded = jwt.verify(token, 'iniRahasiaYa');
+  return res.json(decoded)
   res.json({
     token : token,
     decoded

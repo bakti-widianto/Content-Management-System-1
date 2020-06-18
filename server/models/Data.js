@@ -4,4 +4,5 @@ var dataSchema = new mongoose.Schema({
    frequency: Number
 });
 
+
 module.exports = mongoose.model('Data', dataSchema);
