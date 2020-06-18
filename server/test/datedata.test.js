@@ -80,21 +80,21 @@ describe('users', function () {
                   letter: '2016-11-30',
                   frequency: 1.1
                })
-               .end(function (err, res) {
+               .end(function (err, response) {
                   console.log('testing put :', res.body);
-                  res.should.have.status(201);
-                  res.should.be.json;
-                  res.body.should.be.a('object');
-                  res.body.should.have.property('success');
-                  res.body.should.have.property('message');
-                  res.body.should.have.property('data');
-                  res.body.data.should.have.property('_id');
-                  res.body.data.should.have.property('letter');
-                  res.body.data.should.have.property('frequency');
-                  res.body.message.should.equal('data have been updated');
-                  res.body.success.should.equal(true);
-                  res.body.data.letter.should.equal('2016-11-30');
-                  res.body.data.frequency.should.equal(1.1);
+                  response.should.have.status(201);
+                  response.should.be.json;
+                  response.body.should.be.a('object');
+                  response.body.should.have.property('success');
+                  response.body.should.have.property('message');
+                  response.body.should.have.property('data');
+                  response.body.data.should.have.property('_id');
+                  response.body.data.should.have.property('letter');
+                  response.body.data.should.have.property('frequency');
+                  response.body.message.should.equal('data have been updated');
+                  response.body.success.should.equal(true);
+                  response.body.data.letter.should.equal('2016-11-30');
+                  response.body.data.frequency.should.equal(1.1);
                   done()
                })
          })
@@ -102,28 +102,33 @@ describe('users', function () {
 
 
    // // test delete datadate
-   // it('seharusnya berhasil mengecek token dengan metode POST', function (done) {
-   //    chai.request(server)
-   //       .post('/api/users/login')
-   //       .send({
-   //          'email': 'dumadoniagara@gmail.com',
-   //          'password': 'leb4hGant3nG'
-   //       })
-   //       .end(function (err, res) {
-   //          const token = res.body.token;
-   //          chai.request(server)
-   //             .post('/api/users/check')
-   //             .set('Authorization', token)
-   //             .end(function (err, response) {
-   //                response.should.have.status(200);
-   //                response.should.be.json;
-   //                response.body.should.be.a('object');
-   //                response.body.should.have.property('valid');
-   //                response.body.valid.should.equal(true);
-   //                done()
-   //             });
-   //       })
-   // })
+   it('testing delete data date dengan metode DELETE', function (done) {
+      chai.request(server)
+         .post('/api/datadate/')
+         .send({
+            'letter': '2015-11-30',
+            'frequency': 1.1
+         })
+         .end(function (err, res) {
+            const id = res.body.data._id
+            chai.request(server)
+               .delete(`/api/datadate/${id}`)
+               .end(function (err, response) {
+                  console.log('response datadate', response.body);
+                  response.should.have.status(200);
+                  response.should.be.json;
+                  response.body.should.be.a('object');
+                  response.body.should.have.property('success');
+                  response.body.should.have.property('message');
+                  response.body.should.have.property('data');
+                  response.body.success.should.equal(true);
+                  response.body.message.should.equal("data have been deleted");
+                  response.body.data.letter.should.equal("2015-11-30");
+                  response.body.data.frequency.should.equal(1.1);
+                  done()
+               })
+         })
+   })
 
 
 

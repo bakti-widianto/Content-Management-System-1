@@ -83,9 +83,9 @@ router.delete('/:id', function (req, res) {
          response.data._id = data._id;
          response.data.letter = data.letter;
          response.data.frequency = data.frequency;
-         res.json(response)
+         res.status(200).json(response)
       })
-      .catch(err => res.json(response))
+      .catch(err => res.status(500).json(response))
 })
 
 
