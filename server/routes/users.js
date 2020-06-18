@@ -152,7 +152,6 @@ router.post('/check', function (req, res, next) {
 // ================= DESTROY TOKEN ======================
 router.get('/logout', function (req, res) {
   let token = req.header('Authorization');
-  // let token = req.body.token;
   let response = {
     logout: false
   }
@@ -173,17 +172,6 @@ router.get('/logout', function (req, res) {
     res.status(500).json(response);
   }
 })
-
-
-// testing jwt-verify to decode token
-// router.get('/test', function (req, res) {
-//   let token = req.headers.authorization;
-//   const decoded = jwt.verify(token, rahasia);
-//   res.json({
-//     token: token,
-//     decoded
-//   })
-// })
 
 
 module.exports = router;
