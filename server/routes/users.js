@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const Users = require('../models/Users');
 const rahasia = 'iniRahasiaYa';
+// const x = 'coba';
 
 
 /* GET users listing. */
