@@ -12,8 +12,8 @@ describe('users', function () {
 
    beforeEach(function (done) {
       let user = new User({
-         email: "dumadoniagara@gmail.com",
-         password: "leb4hGant3nG",
+         email: 'dumadoniagara@gmail.com',
+         password: 'leb4hGant3nG',
          token: ''
       });
 
@@ -72,7 +72,7 @@ describe('users', function () {
 
 
 
-   
+
    // test login user
    it('seharusnya berhasil login dengan metode POST', function (done) {
       chai.request(server)
@@ -98,27 +98,54 @@ describe('users', function () {
    })
 
    // test check token
-   chai.request(server)
-      .post('/api/users/login')
-      .send({
-         'email': 'dumadoniagara@gmail.com',
-         'password': 'leb4hGant3nG'
-      })
-      .end(function (err, res) {
-         // console.log(res.body);
-         // const token = res.body.token;
-         // chai.request(server)
-         //          .post('/api/users/check')
-         //          .set('authorization', token)
-         //          .end(function (err, response) {
-         //             response.should.have.status(200);
-         //             ressponse.should.be.json;
-         //             ressponse.body.should.be.a('object');
-         //             ressponse.body.should.have.property('valid');
-         //             ressponse.body.valid.should.equal(true);
-         //             done()
-         //          });
-      })
+   it('seharusnya berhasil mengecek token dengan metode POST', function (done) {
+      chai.request(server)
+         .post('/api/users/login')
+         .send({
+            'email': 'dumadoniagara@gmail.com',
+            'password': 'leb4hGant3nG'
+         })
+         .end(function (err, res) {
+            const token = res.body.token;
+            chai.request(server)
+               .post('/api/users/check')
+               .set('Authorization', token)
+               .end(function (err, response) {
+                  response.should.have.status(200);
+                  response.should.be.json;
+                  response.body.should.be.a('object');
+                  response.body.should.have.property('valid');
+                  response.body.valid.should.equal(true);
+                  done()
+               });
+         })
+   })
+
+
+
+
+   it('seharusnya berhasil destroy token dengan metode GET', function (done) {
+      chai.request(server)
+         .post('/api/users/login')
+         .send({
+            'email': 'dumadoniagara@gmail.com',
+            'password': 'leb4hGant3nG'
+         })
+         .end(function (err, res) {
+            const token = res.body.token;
+            chai.request(server)
+               .get('/api/users/logout')
+               .set('Authorization', token)
+               .end(function (err, response) {
+                  response.should.have.status(200);
+                  response.should.be.json;
+                  response.body.should.be.a('object');
+                  response.body.should.have.property('logout');
+                  response.body.logout.should.equal(true);
+                  done()
+               });
+         })
+   })
 
    // test logout
    // chai.request(server)

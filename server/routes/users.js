@@ -81,9 +81,11 @@ router.post('/login', function (req, res, next) {
     data: {},
     token: ""
   }
+  console.log(email, password);
 
   Users.findOne({ email })
     .then(data => {
+      // console.log(data);
       bcrypt.compare(password, data.password)
         .then(isPasswordTrue => {
           if (isPasswordTrue) {
@@ -124,53 +126,55 @@ router.post('/login', function (req, res, next) {
 
 // ================= POST CHECK TOKEN ======================
 
-// router.post('/check', function (req, res, next) {
-//   let token = req.headers.authorization;
-//   let response = {
-//     valid: false
-//   };
+router.post('/check', function (req, res, next) {
+  let token = req.header('Authorization');
+  let response = {
+    valid: false
+  };
 
-//   if (typeof token !== undefined) {
-//     const decoded = jwt.verify(token, rahasia);
-//     Users.find({ email: decoded.email })
-//       .then(result => {
-//         if (result) {
-//           response.valid = true;
-//           res.status(200).json(response);
-//         } else {
-//           res.status(500).json(response);
-//         }
-//       })
-//       .catch(err => {
-//         res.status(500).json(response);
-//       })
-//   }
-// })
+  if (typeof token !== undefined) {
+    const decoded = jwt.verify(token, rahasia);
+    Users.find({ email: decoded.email })
+      .then(result => {
+        if (result) {
+          response.valid = true;
+          res.status(200).json(response);
+        } else {
+          res.status(500).json(response);
+        }
+      })
+      .catch(err => {
+        res.status(500).json(response);
+      })
+  } else {
+    res.status(500).json(response);
+  }
+})
 
 // ================= DESTROY TOKEN ======================
-// router.get('/logout', function (req, res) {
-//   let token = req.headers.authorization;
-//   // let token = req.body.token;
-//   let response = {
-//     logout: false
-//   }
-//   if (token) {
-//     const decoded = jwt.verify(token, rahasia);
-//     Users.findOneAndUpdate({ email: decoded.email }, { token: undefined })
-//       // .exec() // need a fully-fledged promise, use the .exec() function.
-//       .then(user => {
-//         if (user) {
-//           response.logout = true;
-//           res.status(200).json(response);
-//         }
-//         else {
-//           res.status(500).json(response);
-//         }
-//       })
-//   } else {
-//     res.status(500).json(response);
-//   }
-// })
+router.get('/logout', function (req, res) {
+  let token = req.header('Authorization');
+  // let token = req.body.token;
+  let response = {
+    logout: false
+  }
+  if (token) {
+    const decoded = jwt.verify(token, rahasia);
+    Users.findOneAndUpdate({ email: decoded.email }, { token: undefined })
+      // .exec() // need a fully-fledged promise, use the .exec() function.
+      .then(user => {
+        if (user) {
+          response.logout = true;
+          res.status(200).json(response);
+        }
+        else {
+          res.status(500).json(response);
+        }
+      })
+  } else {
+    res.status(500).json(response);
+  }
+})
 
 
 // testing jwt-verify to decode token
