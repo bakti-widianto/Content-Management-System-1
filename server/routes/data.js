@@ -19,7 +19,7 @@ router.post('/add', (req, res, next) => {
     response.message = 'data have been added';
     response.data._id = data._id;
     response.data.letter = data.letter;
-    response.data.frequency = data.frequency; 
+    response.data.frequency = data.frequency;
     res.status(200).json(response)
   }).catch(err => {
     response.message = err;
@@ -46,13 +46,13 @@ router.put('/:id', (req, res, next) => {
     message: '',
     data: {}
   }
-  Data.findOne({_id: id}).then(data => {
+  Data.findOne({ _id: id }).then(data => {
     if (!data) {
       response.message = 'data not found'
       res.status(404).json(response);
     }
     data.letter = letter,
-    data.frequency = frequency;
+      data.frequency = frequency;
     data.save().then(update => {
       response.success = true;
       response.message = 'data have been updated';
@@ -67,5 +67,39 @@ router.put('/:id', (req, res, next) => {
   }).catch(err => console.error(err));
 })
 
+
+router.get('/', (req, res, next) => {
+  let response = []
+  Data.find().then((data) => {
+    data.forEach(item => {
+      response.push({
+        _id: item._id,
+        letter: item.letter,
+        frequency: item.frequency
+      })
+    })
+    res.status(200).json(response)
+  }).catch(err => res.status(500).json(err));
+})
+
+
+// router delete
+router.delete('/:id', function (req, res) {
+  let response = {
+    success: false,
+    message: "",
+    data: {}
+  }
+  Data.findOneAndRemove({ _id: req.params.id })
+    .then(data => {
+      response.success = true;
+      response.message = "data have been deleted";
+      response.data._id = data._id;
+      response.data.letter = data.letter;
+      response.data.frequency = data.frequency;
+      res.status(200).json(response)
+    })
+    .catch(err => res.status(500).json(response))
+})
 
 module.exports = router;
