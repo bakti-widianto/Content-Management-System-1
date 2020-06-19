@@ -4,9 +4,9 @@ const Data = require('../models/Data')
 
 
 /* POST add data. */
-router.post('/add', (req, res, next) => {
+router.post('/', (req, res, next) => {
   let response = {
-    succes: false,
+    success: false,
     message: '',
     data: {}
   }
@@ -15,12 +15,12 @@ router.post('/add', (req, res, next) => {
     frequency: req.body.frequency
   })
   data.save().then(data => {
-    response.succes = true;
+    response.success = true;
     response.message = 'data have been added';
     response.data._id = data._id;
     response.data.letter = data.letter;
     response.data.frequency = data.frequency;
-    res.status(200).json(response)
+    res.status(201).json(response)
   }).catch(err => {
     response.message = err;
     res.status(401).json(response)
@@ -29,9 +29,16 @@ router.post('/add', (req, res, next) => {
 
 /* POST search data */
 router.post('/search', (req, res, next) => {
+  let response = [];
   Data.find(req.body).then(data => {
-    res.status(200).json(data);
-    console.log(data)
+    response = data.map(item => {
+      return {
+        _id: item._id,
+        letter: item.letter,
+        frequency: item.frequency
+      }
+    })
+    res.status(200).json(response);
   }).catch(err => {
     res.status(401).json(err);
   })
@@ -51,15 +58,15 @@ router.put('/:id', (req, res, next) => {
       response.message = 'data not found'
       res.status(404).json(response);
     }
-    data.letter = letter,
-      data.frequency = frequency;
+    data.letter = letter;
+    data.frequency = frequency;
     data.save().then(update => {
       response.success = true;
       response.message = 'data have been updated';
       response.data._id = update._id;
       response.data.letter = update.letter;
       response.data.frequency = update.frequency;
-      res.status(200).json(response)
+      res.status(201).json(response)
     }).catch(err => {
       response.message = err;
       res.status(404).json(response);
@@ -67,23 +74,45 @@ router.put('/:id', (req, res, next) => {
   }).catch(err => console.error(err));
 })
 
-
-router.get('/', (req, res, next) => {
-  let response = []
-  Data.find().then((data) => {
-    data.forEach(item => {
-      response.push({
-        _id: item._id,
-        letter: item.letter,
-        frequency: item.frequency
-      })
+/* GET Find data */
+router.get('/:id', function (req, res) {
+  let response = {
+    success: false,
+    message: "data not found",
+    data: {}
+  }
+  Data.findOne({ _id: req.params.id })
+    .then(data => {
+      response.success = true;
+      response.message = "data found";
+      response.data._id = data._id;
+      response.data.letter = data.letter;
+      response.data.frequency = data.frequency;
+      res.status(200).json(response)
     })
-    res.status(200).json(response)
-  }).catch(err => res.status(500).json(err));
+    .catch(err => res.status(500).json(response))
 })
 
 
-// router delete
+/* GET read data */
+router.get('/', (req, res, next) => {
+  let response = []
+  Data.find()
+    .then((data) => {
+      data.forEach(item => {
+        response.push({
+          _id: item._id,
+          letter: item.letter,
+          frequency: item.frequency
+        })
+      })
+      res.status(200).json(response)
+    })
+    .catch(err => res.status(500).json(err));
+})
+
+
+/* GET delete data */
 router.delete('/:id', function (req, res) {
   let response = {
     success: false,
@@ -101,5 +130,7 @@ router.delete('/:id', function (req, res) {
     })
     .catch(err => res.status(500).json(response))
 })
+
+
 
 module.exports = router;
