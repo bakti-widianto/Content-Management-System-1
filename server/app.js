@@ -3,14 +3,17 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
+const { json } = require('express');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var dataRouter = require('./routes/data');
 var dataDateRouter = require('./routes/datadate');
+var mapsRouter = require('./routes/maps');
+
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/cmsdb', {useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost/cmsdb', { useNewUrlParser: true, useUnifiedTopology: true });
 
 var app = express();
 
@@ -23,7 +26,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/data', dataRouter);
 app.use('/api/datadate', dataDateRouter);
+app.use('/api/maps', mapsRouter);
+
 
 
 module.exports = app;

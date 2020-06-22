@@ -29,7 +29,7 @@ describe('data', function () {
       done();
    })
 
-   // test list daftar datadate
+   // test list daftar data
    it('Menampilkan list DATA didapatkan dengan metode GET', function (done) {
       chai.request(server)
          .get('/api/data/')

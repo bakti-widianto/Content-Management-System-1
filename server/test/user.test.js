@@ -123,7 +123,7 @@ describe('users', function () {
 
 
 
-
+   // test logout (destroy)
    it('seharusnya berhasil destroy token dengan metode GET', function (done) {
       chai.request(server)
          .post('/api/users/login')
@@ -147,28 +147,5 @@ describe('users', function () {
          })
    })
 
-   // test logout
-   // chai.request(server)
-   //    .post('/api/user/login')
-   //    .send({
-   //       'email': "dumadoniagara@gmail.com",
-   //       'password': "leb4hGant3nG"
-   //    })
-   //    .end(function (err, res) {
-   //       console.log(res);
-   //       const token = res.body.token;
-   //       chai.request(server)
-   //          .get('/api/user/check')
-   //          .set('authorization', token)
-   //          .end(function (err, res) {
-   //             console.log(res);
-   //             res.should.have.status(200);
-   //             res.should.be.json;
-   //             res.body.should.be.a('object');
-   //             res.body.should.have.property('logout');
-   //             res.body.valid.should.equal(true);
-   //             done()
-   //          });
-   //    })
 
 });

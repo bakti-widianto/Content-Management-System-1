@@ -7,7 +7,7 @@ const { expect } = require('chai');
 const should = chai.should();
 chai.use(chaiHTTP);
 
-describe('users', function () {
+describe('datadate', function () {
    DataDate.collection.drop();
 
    beforeEach(function (done) {
