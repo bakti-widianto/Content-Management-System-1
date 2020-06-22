@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="/">Content Management System</a>
+      <router-link to="/" class="navbar-brand" >Content Management System</router-link>
       <button
         class="navbar-toggler"
         type="button"
@@ -17,26 +17,22 @@
       <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
           <li class="nav-item" id="homeMenu">
-            <a class="nav-link" href="/home">Home</a>
+            <router-link to="/home" class="nav-link">Home</router-link>
           </li>
           <li class="nav-item" id="dataMenu">
-            <a class="nav-link" href="/data">Data</a>
+            <router-link to="/data" class="nav-link">Data</router-link>
           </li>
           <li class="nav-item" id="dateMenu">
-            <a class="nav-link" href="/datadate">Data Date</a>
+            <router-link to="/datedata" class="nav-link">Data Date</router-link>
           </li>
           <li class="nav-item" id="mapMenu">
-            <a class="nav-link" href="/maps">Maps</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/">Dashboard</a>
+            <router-link to="/maps" class="nav-link">Maps</router-link>
           </li>
         </ul>
-        <a
+        <router-link to="/logout"
           class="btn btn-outline-success my-2 my-sm-0 mr-5 text-success logout-btn"
           role="button"
-          href
-        >Logout</a>
+        >Logout</router-link>
       </div>
     </nav>
   </div>

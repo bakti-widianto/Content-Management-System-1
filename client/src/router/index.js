@@ -17,56 +17,62 @@ import Pie from '../components/Pie';
 Vue.use(VueRouter);
 
 export default new VueRouter({
-   routes : [
+   routes: [
       {
          path: '/',
-         name : 'Index',
+         name: 'Index',
          component: Index
       },
       {
          path: '/data',
-         name : 'Data',
+         name: 'Data',
          component: Data
       },
       {
          path: '/datedata',
-         name : 'DateData',
-         component : DateData
+         name: 'DateData',
+         component: DateData
       },
       {
          path: '/home',
-         name : 'Home',
-         component : Home
+         name: 'Home',
+         component: Home
       },
       {
          path: '/maps',
-         name : 'Map',
-         component : Maps
+         name: 'Map',
+         component: Maps
       },
       {
          path: '/line',
-         name : 'Line',
-         component : Line
+         name: 'Line',
+         component: Line
       },
       {
          path: '/pie',
-         name : 'Pie',
-         component : Pie
+         name: 'Pie',
+         component: Pie
       },
       {
          path: '/bar',
-         name : 'Bar',
-         component : Bar
+         name: 'Bar',
+         component: Bar
       },
       {
          path: '/map',
-         name : 'Map',
-         component : CMap
+         name: 'Map',
+         component: CMap
       },
       {
          path: '/login',
-         name : 'Login',
-         component : Login
+         name: 'Login',
+         component: Login
+      },
+      {
+         path: '/logout',
+         name: 'Logout',
+         redirect: '/'
+
       }
    ]
 })
