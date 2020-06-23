@@ -13,7 +13,9 @@
             data-target="#collapseAdd"
             aria-expanded="false"
             aria-controls="collapseAdd"
-          >add new data</button>
+          >
+            <i class="fas fa-plus">add new data</i>
+          </button>
           <!-- button collapse end -->
         </p>
         <div class="collapse" id="collapseAdd">
@@ -22,7 +24,9 @@
               <div class="form-group">
                 <div class="row">
                   <div class="col">
-                    <label for="letter">Letter</label>
+                    <label for="letter">
+                      <b>Letter</b>
+                    </label>
                     <input
                       type="text"
                       v-model="letter"
@@ -32,7 +36,9 @@
                     />
                   </div>
                   <div class="col">
-                    <label for="frequency">Frequency</label>
+                    <label for="frequency">
+                      <b>Frequency</b>
+                    </label>
                     <input
                       type="Number"
                       step="0.1"
@@ -55,9 +61,9 @@
       <!-- Add collapse end -->
 
       <!-- Table content start -->
-      <div class="card mt-3 mb-5 mr-auto ml-auto" style="width: 70rem;">
+      <div class="card mt-3 mb-5 " >
         <div class="card-body">
-          <table class="table table-striped">
+          <table class="table table-striped ">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -72,9 +78,9 @@
                 <td>{{data.letter}}</td>
                 <td>{{data.frequency}}</td>
                 <td>
-                  <button role="button" class="btn btn-success mr-1 btn-edit">
+                  <router-link to="/data/edit/"><button role="button" class="btn btn-success mr-1 btn-edit">
                     <i class="fas fa-pen-alt">update</i>
-                  </button>
+                  </button></router-link>
                   <button
                     role="button"
                     v-bind:id="data._id"
@@ -153,8 +159,8 @@ export default {
         .catch(err => console.log(err));
     }
   },
-  mounted() {
-    this.loadData();
+  created() {
+    this.loadData()
   }
 };
 </script>

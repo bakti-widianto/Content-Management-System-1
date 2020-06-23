@@ -2,6 +2,8 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import Data from '../components/Data';
+import DataEdit from '../components/DataEdit';
+
 import DateData from '../components/DateData';
 import Home from '../components/Home';
 import Maps from '../components/Maps';
@@ -26,6 +28,14 @@ const router = new VueRouter({
          path: '/data',
          name: 'Data',
          component: Data,
+         meta: {
+            requiresAuth: true
+         }
+      },
+      {
+         path: '/data/edit/:id',
+         name: 'Data Edit',
+         component: DataEdit,
          meta: {
             requiresAuth: true
          }
