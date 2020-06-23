@@ -3,7 +3,7 @@
     <navbar></navbar>
     <div class="container">
       <!-- Add collapse start -->
-      <div class="mt-3 mb-5 mr-auto ml-auto" style="width: 70rem;">
+      <div class="mt-3 mb-2 mr-auto ml-auto" style="width: 70rem;">
         <p>
           <!-- button collapse start -->
           <button
@@ -54,6 +54,45 @@
       </div>
       <!-- Add collapse end -->
 
+      <!-- Form search start -->
+      <div class="mt-2 mb-2 mr-auto ml-auto" style="width: 70rem;">
+        <div class="card card-body">
+          <form>
+            <div class="form-group">
+              <div class="row">
+                <div class="col">
+                  <label for="letter">
+                    <b>Letter</b>
+                  </label>
+                  <input
+                    type="text"
+                    v-model="searchLetter"
+                    class="form-control"
+                    placeholder="Search letter"
+                    id="search-letter"
+                  />
+                </div>
+                <div class="col">
+                  <label for="frequency">
+                    <b>Frequency</b>
+                  </label>
+                  <input
+                    type="Number"
+                    step="0.1"
+                    v-model="searchFrequency"
+                    placeholder="Search frequency"
+                    class="form-control"
+                    id="search-frequency"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-group"></div>
+          </form>
+        </div>
+      </div>
+      <!-- Form search end -->
+
       <!-- Table content start -->
       <div class="card mt-3 mb-5 mr-auto ml-auto" style="width: 70rem;">
         <div class="card-body">
@@ -72,9 +111,15 @@
                 <td>{{data.letter}}</td>
                 <td>{{data.frequency}}</td>
                 <td>
-                  <button role="button" class="btn btn-success mr-1 btn-edit">
-                    <i class="fas fa-pen-alt">update</i>
-                  </button>
+                  <router-link v-bind:to="`data/edit/`+data._id">
+                    <button
+                      role="button"
+                      v-bind:id="data._id"
+                      class="btn btn-success mr-1 btn-edit"
+                    >
+                      <i class="fas fa-pen-alt">update</i>
+                    </button>
+                  </router-link>
                   <button
                     role="button"
                     v-bind:id="data._id"
@@ -108,8 +153,18 @@ export default {
       add: false,
       letter: "",
       frequency: "",
+      searchLetter: "",
+      searchFrequency: "",
       id: ""
     };
+  },
+  watch: {
+    searchLetter: function() {
+      this.searchData();
+    },
+    searchFrequency: function() {
+      this.searchData();
+    }
   },
   methods: {
     loadData() {
@@ -122,7 +177,6 @@ export default {
     },
     handleAdd(e) {
       e.preventDefault();
-      console.log("letter:", this.letter, "frequency", this.frequency);
       axios
         .post("http://localhost:3000/api/data/", {
           letter: this.letter,
@@ -131,6 +185,8 @@ export default {
         .then(response => {
           console.log(response);
           if (response.data.success === true) {
+            this.letter = "";
+            this.frequency = "";
             this.loadData();
           } else {
             console.log("internal server error to Add");
@@ -151,7 +207,25 @@ export default {
           }
         })
         .catch(err => console.log(err));
-    }
+    },
+    searchData() {
+      let body = {};
+      if(this.searchFrequency && this.searchLetter){
+        body.letter = this.searchLetter;
+        body.frequency = this.searchFrequency;
+      } else if(this.searchFrequency){
+        body.frequency = this.searchFrequency;
+      } else if(this.searchLetter){
+        body.letter = this.searchLetter;
+      }
+        axios
+          .post("http://localhost:3000/api/data/search", body)
+          .then(response => {
+            console.log(response);
+            this.datas = response.data;
+          })
+          .catch(err => console.log(err));
+      }
   },
   mounted() {
     this.loadData();
