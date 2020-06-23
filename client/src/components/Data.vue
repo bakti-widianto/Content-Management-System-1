@@ -14,7 +14,7 @@
             aria-expanded="false"
             aria-controls="collapseAdd"
           >
-            <i class="fas fa-plus">add new data</i>
+            <i class="fas fa-plus"> add new data</i>
           </button>
           <!-- button collapse end -->
         </p>
