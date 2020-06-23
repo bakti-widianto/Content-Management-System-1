@@ -30,7 +30,19 @@ router.post('/', (req, res, next) => {
 /* POST search data */
 router.post('/search', (req, res, next) => {
   let response = [];
-  Data.find(req.body).then(data => {
+  let reg = new RegExp(req.body.letter, 'i');
+  let filter = {};
+  
+  if (req.body.letter && req.body.frequency) {
+    filter.letter = { $regex: reg };
+    filter.frequency = req.body.frequency;
+  } else if (req.body.frequency) {
+    filter.frequency = req.body.frequency;
+  } else if (req.body.letter) {
+    filter.letter = { $regex: reg };
+  }
+
+  Data.find(filter).then(data => {
     response = data.map(item => {
       return {
         _id: item._id,
