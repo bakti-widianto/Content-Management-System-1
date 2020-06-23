@@ -10,13 +10,22 @@ const rahasia = 'iniRahasiaYa';
 
 /* GET users listing. */
 router.get('/list', function (req, res) {
+  let response = [];
   Users.find({})
     .then(result => {
-      res.status(200).json(result);
+      response = result.map(item=>{
+        return{
+          _id : item._id,
+          email : item.email,
+          password : item.password,
+          token : item.token
+        }
+      })
+      res.status(200).json(response);
     })
     .catch(err => {
       res.status(500).json({
-        message: err
+        response
       });
     })
 })
