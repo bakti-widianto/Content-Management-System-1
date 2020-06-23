@@ -24,7 +24,8 @@
                   <div class="col">
                     <label for="letter">Letter</label>
                     <input
-                      type="text" v-model="letter"
+                      type="text"
+                      v-model="letter"
                       class="form-control"
                       placeholder="input the letter"
                       id="letter"
@@ -34,7 +35,8 @@
                     <label for="frequency">Frequency</label>
                     <input
                       type="Number"
-                      step="0.1" v-model="frequency"
+                      step="0.1"
+                      v-model="frequency"
                       placeholder="input frequency"
                       class="form-control"
                       id="frequency"
@@ -70,12 +72,17 @@
                 <td>{{data.letter}}</td>
                 <td>{{data.frequency}}</td>
                 <td>
-                  <a role="button" data-id="${data._id}" class="btn btn-success mr-1 btn-edit" href>
+                  <button role="button" class="btn btn-success mr-1 btn-edit">
                     <i class="fas fa-pen-alt">update</i>
-                  </a>
-                  <a role="button" data-id="${data._id}" class="btn btn-danger btn-delete" href>
+                  </button>
+                  <button
+                    role="button"
+                    v-bind:id="data._id"
+                    v-on:click="handleDelete($event)"
+                    class="btn btn-danger btn-delete"
+                  >
                     <i class="fas fa-trash">delete</i>
-                  </a>
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -100,32 +107,54 @@ export default {
       datas: null,
       add: false,
       letter: "",
-      frequency: ""
+      frequency: "",
+      id: ""
     };
   },
-  mounted() {
-    axios
-      .get("http://localhost:3000/api/data/")
-      .then(response => {
-        console.log(response);
-        this.datas = response.data;
-      })
-      .catch(err => console.log(err));
-  },
   methods: {
+    loadData() {
+      axios
+        .get("http://localhost:3000/api/data/")
+        .then(response => {
+          this.datas = response.data;
+        })
+        .catch(err => console.log(err));
+    },
     handleAdd(e) {
       e.preventDefault();
-      console.log('letter:',this.letter,'frequency', this.frequency)
+      console.log("letter:", this.letter, "frequency", this.frequency);
       axios
-        .post("http://localhost:3000/api/data/",{
-          letter : this.letter,
+        .post("http://localhost:3000/api/data/", {
+          letter: this.letter,
           frequency: this.frequency
         })
         .then(response => {
           console.log(response);
+          if (response.data.success === true) {
+            this.loadData();
+          } else {
+            console.log("internal server error to Add");
+          }
+        })
+        .catch(err => console.log(err));
+    },
+    handleDelete(event) {
+      const id = event.currentTarget.id;
+      axios
+        .delete("http://localhost:3000/api/data/" + id)
+        .then(response => {
+          console.log(response);
+          if (response.data.success === true) {
+            this.loadData();
+          } else {
+            console.log("internal server error to delete");
+          }
         })
         .catch(err => console.log(err));
     }
+  },
+  mounted() {
+    this.loadData();
   }
 };
 </script>
