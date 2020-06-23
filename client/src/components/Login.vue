@@ -1,75 +1,68 @@
 <template>
-  <div class="container">
-    <div class="cover-container d-flex w-100 h-80 p-3 mt-5 flex-column">
-        <header class="masthead mb-auto">
-        </header>
-
-        <main role="main" class="inner cover">
-            <div class="card">
-               <!-- card-header start -->
+  <div>
+    <div class="cover-container d-flex p-3 mt-5 flex-column">
+      <main role="main" class="inner cover">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-8 offset-md-2">
+              <div class="card mt-5">
+                <!-- card-header start -->
                 <div class="card-header">
-                    <div class="row">
-                        <div class="col">
-                            <a class="bg-primary text-white btn-lg btn-block login text-center" href="">Login</a>
-                        </div>
-                        <div class="col">
-                            <a class="btn btn-outline-primary btn-lg btn-block register text-center" href="">Register
-                            </a>
-                        </div>
+                  <div class="row">
+                    <div class="col">
+                      <a class="bg-primary text-white btn-lg btn-block login text-center" href>Login</a>
                     </div>
+                    <div class="col">
+                      <a
+                        class="btn btn-outline-primary btn-lg btn-block register text-center"
+                        href
+                      >Register</a>
+                    </div>
+                  </div>
                 </div>
-               <!-- card-header end -->
+                <!-- card-header end -->
 
-
-               <!-- card-body start -->
+                <!-- card-body start -->
                 <div class="card-body" id="login-form">
-                    <div class="alert alert-danger" id="failedResponseLog" role="alert" style="display: none">
+                  <form>
+                    <div class="form-group">
+                      <label for>Email address</label>
+                      <input
+                        type="email"
+                        v-model="email"
+                        class="form-control"
+                        id="email"
+                        aria-describedby="emailHelp"
+                        required
+                      />
                     </div>
-                    <form action="" id="submit-login">
-                        <div class="form-label-group">
-                            <input type="email" id="inputEmailLog" class="form-control" placeholder="Email address"
-                                required autofocus>
-                            <label for="inputEmailLog">Email address</label>
-                        </div>
-
-                        <div class="form-label-group">
-                            <input type="password" id="inputPasswordLog" class="form-control" placeholder="Password"
-                                required>
-                            <label for="inputPasswordLog">Password</label>
-                        </div>
-
-                        <button type="submit" class="btn btn-info btn-login btn-block">Log In</button>
-                    </form>
-                </div>
-                <div class="card-body" id="register-form" style="display: none">
-                    <div class="alert alert-danger" id="failedResponseReg" role="alert" style="display: none">
+                    <div class="form-group">
+                      <label for>Password</label>
+                      <input
+                        type="password"
+                        v-model="password"
+                        class="form-control"
+                        id="password"
+                        required
+                      />
                     </div>
-                    <form action="" id="submit-register">
-                        <div class="form-label-group">
-                            <input type="email" id="inputEmailReg" class="form-control" placeholder="Email address"
-                                required autofocus>
-                            <label for="inputEmailReg">Email address</label>
-                        </div>
 
-                        <div class="form-label-group">
-                            <input type="password" id="inputPasswordReg" class="form-control" placeholder="Password"
-                                required>
-                            <label for="inputPasswordReg">Password</label>
-                        </div>
-
-                        <div class="form-label-group">
-                            <input type="password" id="inputPasswordConfirmationReg" class="form-control"
-                                placeholder="Confirmation Password" required>
-                            <label for="inputPasswordConfirmationReg">Confirm Password</label>
-                        </div>
-                        <button type="submit" class="btn btn-info btn-register btn-block">Register Now</button>
-                    </form>
+                    <div class="row">
+                      <div class="col">
+                        <button
+                          type="submit"
+                          @click="handleSubmit"
+                          class="btn btn-primary btn-block"
+                        >LOG IN</button>
+                      </div>
+                    </div>
+                  </form>
                 </div>
+              </div>
             </div>
-        </main>
-
-        <footer class="mastfoot mt-auto">
-        </footer>
+          </div>
+        </div>
+      </main>
     </div>
   </div>
 </template>
@@ -78,8 +71,34 @@
 export default {
   data() {
     return {
-      msg: "Login"
+      email: "",
+      password: "",
+      token : null
     };
+  },
+  methods: {
+    handleSubmit(e) {
+      e.preventDefault();
+      axios
+        .post("http://localhost:3000/api/users/login", {
+          email: this.email,
+          password: this.password
+        })
+        .then(response => {
+          if (response.data.message) {
+            console.log(response.data.data.email)
+            localStorage.setItem("Authorization", response.data.token);
+            localStorage.setItem("email", response.data.data.email);
+            this.$router.push('/home');
+          } else {
+            console.log("email or password wrong! try again")
+          }
+        })
+        .post(error => console.log(error));
+    }
   }
 };
 </script>
+
+<style scoped>
+</style>

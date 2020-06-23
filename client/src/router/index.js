@@ -12,11 +12,10 @@ import Line from '../components/Line';
 import Bar from '../components/Bar';
 import Pie from '../components/Pie';
 
-
-
 Vue.use(VueRouter);
 
-export default new VueRouter({
+const router = new VueRouter({
+   mode: 'history',
    routes: [
       {
          path: '/',
@@ -26,22 +25,34 @@ export default new VueRouter({
       {
          path: '/data',
          name: 'Data',
-         component: Data
+         component: Data,
+         meta: {
+            requiresAuth: true
+         }
       },
       {
          path: '/datedata',
          name: 'DateData',
-         component: DateData
+         component: DateData,
+         meta: {
+            requiresAuth: true
+         }
       },
       {
          path: '/home',
          name: 'Home',
-         component: Home
+         component: Home,
+         meta: {
+            requiresAuth: true
+         }
       },
       {
          path: '/maps',
          name: 'Map',
-         component: Maps
+         component: Maps,
+         meta: {
+            requiresAuth: true
+         }
       },
       {
          path: '/line',
@@ -60,7 +71,7 @@ export default new VueRouter({
       },
       {
          path: '/map',
-         name: 'Map',
+         name: 'CMap',
          component: CMap
       },
       {
@@ -71,8 +82,25 @@ export default new VueRouter({
       {
          path: '/logout',
          name: 'Logout',
-         redirect: '/'
-
+         redirect : '/'
       }
    ]
+});
+
+router.beforeEach((to, from, next) => {
+   if(to.matched.some(record => record.meta.requiresAuth)){
+      // check if user is authenticated
+      if(localStorage.getItem('Authorization')){
+         next();
+      }else {
+         router.push('/login')
+      }
+   } else {
+      // allow page is not authenticated
+      next();
+   }
+
 })
+
+
+export default router;
