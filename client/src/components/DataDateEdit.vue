@@ -71,15 +71,20 @@ export default {
         }
       })
         .then(response => {
-          console.log(response.data);
           if (response.data.success === true) {
-            console.log("OK");
-            this.$router.push("/datedata");
+            this.$router.push("/datedata")
+            this.$swal({
+              icon: "success",
+              title: "Your data has been updated",
+              showConfirmButton: false,
+              timer: 1200
+            });
+            
           } else {
             console.log("Gak OK");
           }
         })
-        .catch(err => console.log("error"));
+        .catch(err => console.log("Api rejected this put request"));
     }
   },
   mounted() {
@@ -98,9 +103,7 @@ export default {
 </script>
 
  <style >
-
- .edit-card{
-    margin-top: 15%;
- }
-
- </style>
+.edit-card {
+  margin-top: 15%;
+}
+</style>

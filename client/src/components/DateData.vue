@@ -3,7 +3,7 @@
     <navbar></navbar>
     <div class="container">
       <h1 class="text-center mt-2">Date Data Dashboard</h1>
-      <hr>
+      <hr />
       <!-- Add collapse start -->
       <div class="mt-3 mb-2 mr-auto ml-auto" style="width: 70rem;">
         <p>
@@ -30,7 +30,8 @@
                       v-model="letter"
                       class="form-control"
                       placeholder="input the letter"
-                      id="letter" required
+                      id="letter"
+                      required
                     />
                   </div>
                   <div class="col">
@@ -41,7 +42,8 @@
                       v-model="frequency"
                       placeholder="input frequency"
                       class="form-control"
-                      id="frequency" required
+                      id="frequency"
+                      required
                     />
                   </div>
                 </div>
@@ -189,6 +191,12 @@ export default {
             this.letter = "";
             this.frequency = "";
             this.loadData();
+            this.$swal({
+              icon: "success",
+              title: "Your data has been saved",
+              showConfirmButton: false,
+              timer: 1000
+            });
           } else {
             console.log("internal server error to Add");
           }
@@ -197,36 +205,62 @@ export default {
     },
     handleDelete(event) {
       const id = event.currentTarget.id;
-      axios
-        .delete("http://localhost:3000/api/datadate/" + id)
-        .then(response => {
-          console.log(response);
-          if (response.data.success === true) {
-            this.loadData();
-          } else {
-            console.log("internal server error to delete");
-          }
-        })
-        .catch(err => console.log(err));
+      this.$swal({
+        title: "Are you sure?",
+        text: "You can't revert this action",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes Delete it!",
+        cancelButtonText: "No, Keep it!",
+        showCloseButton: true,
+        showLoaderOnConfirm: true
+      }).then(result => {
+        if (result.value) {
+          axios
+            .delete("http://localhost:3000/api/datadate/" + id)
+            .then(response => {
+              console.log(response);
+              if (response.data.success === true) {
+                this.loadData();
+              } else {
+                console.log("internal server error to delete");
+              }
+            })
+            .catch(err => console.log(err));
+          this.$swal({
+            icon: "success",
+            title: "Data has been deleted",
+            showConfirmButton: false,
+            timer: 1200
+          });
+        } else {
+          this.$swal({
+            icon: "info",
+            title: "OK, Your data still there",
+            showConfirmButton: false,
+            timer: 1200
+          });
+        }
+      });
     },
     searchData() {
       let body = {};
-      if(this.searchFrequency && this.searchLetter){
+      if (this.searchFrequency && this.searchLetter) {
         body.letter = this.searchLetter;
         body.frequency = this.searchFrequency;
-      } else if(this.searchFrequency){
+      } else if (this.searchFrequency) {
         body.frequency = this.searchFrequency;
-      } else if(this.searchLetter){
+      } else if (this.searchLetter) {
         body.letter = this.searchLetter;
       }
-        axios
-          .post("http://localhost:3000/api/datadate/search", body)
-          .then(response => {
-            console.log(response);
-            this.datas = response.data;
-          })
-          .catch(err => console.log(err));
-      }
+      axios
+        .post("http://localhost:3000/api/datadate/search", body)
+        .then(response => {
+          console.log(response);
+          this.datas = response.data;
+        })
+        .catch(err => console.log(err));
+    }
   },
   mounted() {
     this.loadData();

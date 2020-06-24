@@ -192,6 +192,12 @@ export default {
             this.latitude = "";
             this.longitude = "";
             this.loadData();
+            this.$swal({
+              icon: "success",
+              title: "Your data has been saved",
+              showConfirmButton: false,
+              timer: 1000
+            })
           } else {
             console.log("internal server error to Add");
           }
@@ -200,7 +206,18 @@ export default {
     },
     handleDelete(event) {
       const id = event.currentTarget.id;
-      axios
+      this.$swal({
+        title: "Are you sure?",
+        text: "You can't revert this action",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes Delete it!",
+        cancelButtonText: "No, Keep it!",
+        showCloseButton: true,
+        showLoaderOnConfirm: true
+      }).then(result => {
+        if (result.value) {
+          axios
         .delete("http://localhost:3000/api/maps/" + id)
         .then(response => {
           console.log(response);
@@ -211,6 +228,23 @@ export default {
           }
         })
         .catch(err => console.log(err));
+
+        this.$swal({
+            icon: "success",
+            title: "Data has been deleted",
+            showConfirmButton: false,
+            timer: 1200
+            });
+        
+        } else {
+          this.$swal({
+            icon: "info",
+            title: "Your data is still there",
+            showConfirmButton: false,
+            timer: 1200
+          });
+        }
+      })
     },
     searchData() {
       let body = {};
