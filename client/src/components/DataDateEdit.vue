@@ -13,7 +13,7 @@
                 <div class="col">
                   <label for="letter">Letter</label>
                   <input
-                    type="text"
+                    type="date"
                     v-model="letter"
                     class="form-control"
                     placeholder="input the letter"
@@ -64,7 +64,7 @@ export default {
       console.log(this.$route.params.id);
       axios({
         method: "put",
-        url: "http://localhost:3000/api/data/" + this.$route.params.id,
+        url: "http://localhost:3000/api/datadate/" + this.$route.params.id,
         data: {
           letter: this.letter,
           frequency: this.frequency
@@ -74,7 +74,7 @@ export default {
           console.log(response.data);
           if (response.data.success === true) {
             console.log("OK");
-            this.$router.push("/data");
+            this.$router.push("/datedata");
           } else {
             console.log("Gak OK");
           }
@@ -85,7 +85,7 @@ export default {
   mounted() {
     axios({
       method: "get",
-      url: "http://localhost:3000/api/data/" + this.$route.params.id
+      url: "http://localhost:3000/api/datadate/" + this.$route.params.id
     })
       .then(response => {
         console.log(response);

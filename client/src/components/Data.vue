@@ -2,6 +2,8 @@
   <div>
     <navbar></navbar>
     <div class="container">
+      <h1 class="text-center mt-2">Data Dashboard</h1>
+      <hr>
       <!-- Add collapse start -->
       <div class="mt-3 mb-2 mr-auto ml-auto" style="width: 70rem;">
         <p>
@@ -28,7 +30,7 @@
                       v-model="letter"
                       class="form-control"
                       placeholder="input the letter"
-                      id="letter"
+                      id="letter" required
                     />
                   </div>
                   <div class="col">
@@ -39,7 +41,7 @@
                       v-model="frequency"
                       placeholder="input frequency"
                       class="form-control"
-                      id="frequency"
+                      id="frequency" required
                     />
                   </div>
                 </div>

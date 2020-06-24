@@ -110,9 +110,21 @@ router.get('/:id', function (req, res) {
       .catch(err => res.status(500).json(response))
 })
 
+/* BROWSE */
 router.post('/search', function (req, res) {
    let response = [];
-   DataDate.find(req.body) // ini udah termasuk logika browse pake atau. Meskipun salah satu aja bakal dapet
+   let reg = new RegExp(req.body.letter, 'i');
+   let filter = {};
+
+   if (req.body.letter && req.body.frequency) {
+      filter.letter = { $regex: reg };
+      filter.frequency = req.body.frequency;
+   } else if (req.body.frequency) {
+      filter.frequency = req.body.frequency;
+   } else if (req.body.letter) {
+      filter.letter = { $regex: reg };
+   }
+   DataDate.find(filter)
       .then(data => {
          response = data.map(item => {
             return {

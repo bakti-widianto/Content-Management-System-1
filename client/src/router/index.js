@@ -3,8 +3,9 @@ import VueRouter from 'vue-router';
 
 import Data from '../components/Data';
 import DataEdit from '../components/DataEdit';
-
 import DateData from '../components/DateData';
+import DataDateEdit from '../components/DataDateEdit';
+
 import Home from '../components/Home';
 import Maps from '../components/Maps';
 import Index from '../components/Index';
@@ -44,6 +45,14 @@ const router = new VueRouter({
          path: '/datedata',
          name: 'DateData',
          component: DateData,
+         meta: {
+            requiresAuth: true
+         }
+      },
+      {
+         path: '/datadate/edit/:id',
+         name: 'DataDateEdit',
+         component: DataDateEdit,
          meta: {
             requiresAuth: true
          }
@@ -92,17 +101,17 @@ const router = new VueRouter({
       {
          path: '/logout',
          name: 'Logout',
-         redirect : '/'
+         redirect: '/'
       }
    ]
 });
 
 router.beforeEach((to, from, next) => {
-   if(to.matched.some(record => record.meta.requiresAuth)){
+   if (to.matched.some(record => record.meta.requiresAuth)) {
       // check if user is authenticated
-      if(localStorage.getItem('Authorization')){
+      if (localStorage.getItem('Authorization')) {
          next();
-      }else {
+      } else {
          router.push('/login')
       }
    } else {

@@ -43,7 +43,8 @@ router.post('/register', function (req, res, next) {
       .then(result => {
         if (result) {
           response.message = 'Email already exist';
-          return res.status(500).json(response);
+          console.log(response)
+          return res.status(200).json(response);
         } else {
           var token = jwt.sign({ email: email }, rahasia);
           let user = new Users({
@@ -127,7 +128,7 @@ router.post('/login', function (req, res, next) {
     })
     .catch(err => {
       response.message = "Email doesn't exist"
-      res.status(500).json(response);
+      res.status(200).json(response);
     })
 })
 
