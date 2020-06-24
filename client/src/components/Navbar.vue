@@ -23,7 +23,7 @@
             <router-link to="/data" class="nav-link">Data</router-link>
           </li>
           <li class="nav-item" id="dateMenu">
-            <router-link to="/datedata" class="nav-link">Data Date</router-link>
+            <router-link to="/datedata" class="nav-link">Date Data</router-link>
           </li>
           <li class="nav-item" id="mapMenu">
             <router-link to="/maps" class="nav-link">Maps</router-link>

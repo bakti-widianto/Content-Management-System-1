@@ -122,7 +122,14 @@ router.get('/:id', function (req, res) {
 // ================ BROWSE ================
 router.post('/search', function (req, res) {
    let response = [];
-   Maps.find(req.body) // ini udah termasuk logika browse pake atau. Meskipun salah satu aja bakal dapet
+   let reg = new RegExp(req.body.title, 'i');
+   let filter = {};
+
+   if (req.body.title) {
+      filter.title = { $regex: reg };
+   } 
+
+   Maps.find(filter)
       .then(data => {
          response = data.map(item => {
             return {

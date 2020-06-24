@@ -5,9 +5,9 @@ import Data from '../components/Data';
 import DataEdit from '../components/DataEdit';
 import DateData from '../components/DateData';
 import DataDateEdit from '../components/DataDateEdit';
-
 import Home from '../components/Home';
 import Maps from '../components/Maps';
+import MapsEdit from '../components/MapsEdit';
 import Index from '../components/Index';
 import CMap from '../components/CMap';
 import Login from '../components/Login';
@@ -69,6 +69,14 @@ const router = new VueRouter({
          path: '/maps',
          name: 'Map',
          component: Maps,
+         meta: {
+            requiresAuth: true
+         }
+      },
+      {
+         path: '/maps/edit/:id',
+         name: 'MapsEdit',
+         component: MapsEdit,
          meta: {
             requiresAuth: true
          }
