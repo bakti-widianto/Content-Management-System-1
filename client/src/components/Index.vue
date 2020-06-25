@@ -1,11 +1,17 @@
 <template>
   <div class="index">
     <div class="container d-flex w-80 h-80 p-3 mt-5 mb-5 flex-column">
-      <main role="main" class="inner cover dashboard-main">
-        <div class="card">
-          <h5 class="card-header bg-primary" style="color: white">
-            <i class="far fa-bookmark"></i><span>Welcome to Dashboard</span>
-          </h5>
+      <div class="container mt-5">
+        <h5 class="card-header bg-info" style="color: white">
+          <i class="far fa-bookmark"></i>
+          <span style="color: white">Welcome to Dashboard</span>
+        </h5>
+
+        <div class="card flex-row">
+          <div class="card-img-left d-none d-md-flex">
+            <!-- Background image for card set in CSS! -->
+          </div>
+
           <div class="card-body">
             <router-link
               to="/line"
@@ -52,7 +58,7 @@
             </router-link>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   </div>
 </template>
@@ -77,7 +83,16 @@ export default {};
 
 .card {
   border: 0;
+  border-radius: 10px;
   box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.card-header {
+  font-family: Viga;
+  border: solid 0.5px;
+  border-radius: 10px;
+  box-shadow: 0 0.5rem 0.5rem 0 rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
 
@@ -86,5 +101,13 @@ export default {};
   border-radius: 50px;
   box-shadow: 0 0.5rem 0.5rem 0 rgba(0, 0, 0, 0.1);
   overflow: hidden;
+}
+
+.card-img-left {
+  border-radius: 10px;
+  width: 45%;
+  background: scroll center
+    url("https://source.unsplash.com/WLUHO9A_xik/1600x900");
+  background-size: cover;
 }
 </style>

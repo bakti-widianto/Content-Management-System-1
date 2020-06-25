@@ -4,7 +4,7 @@
       <div class="card">
         <div class="card-header">
           <div class="row">
-            <div class="col offset-1 judul">
+            <div class="col offset-1 judul-client">
               <i class="far fa-bookmark"></i> Line Chart
             </div>
             <div class="col offset-6 back-home">
@@ -39,7 +39,7 @@ export default {
 };
 </script>
 <style scoped>
-.judul {
+.judul-client {
   font-family: Viga;
   font-size: 28px;
 }
