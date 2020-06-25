@@ -21,9 +21,18 @@
               <!-- button collapse end -->
             </p>
           </div>
-          <div class="col offset-8">
+          <div class="col offset-7">
             <p>
-                <router-link to="/pie"><button class="btn btn-primary" type="button">To Pie Chart</button></router-link>
+              <router-link to="/pie">
+                <button class="btn btn-primary" type="button">To Pie Chart</button>
+              </router-link>
+            </p>
+          </div>
+          <div class="col">
+            <p>
+              <router-link to="/bar">
+                <button class="btn btn-primary" type="button">To Bar Chart</button>
+              </router-link>
             </p>
           </div>
         </div>
