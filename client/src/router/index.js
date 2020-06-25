@@ -2,9 +2,12 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import Data from '../components/Data';
+import DataEdit from '../components/DataEdit';
 import DateData from '../components/DateData';
+import DataDateEdit from '../components/DataDateEdit';
 import Home from '../components/Home';
 import Maps from '../components/Maps';
+import MapsEdit from '../components/MapsEdit';
 import Index from '../components/Index';
 import CMap from '../components/CMap';
 import Login from '../components/Login';
@@ -12,11 +15,10 @@ import Line from '../components/Line';
 import Bar from '../components/Bar';
 import Pie from '../components/Pie';
 
-
-
 Vue.use(VueRouter);
 
-export default new VueRouter({
+const router = new VueRouter({
+   mode: 'history',
    routes: [
       {
          path: '/',
@@ -26,22 +28,58 @@ export default new VueRouter({
       {
          path: '/data',
          name: 'Data',
-         component: Data
+         component: Data,
+         meta: {
+            requiresAuth: true
+         }
+      },
+      {
+         path: '/data/edit/:id',
+         name: 'DataEdit',
+         component: DataEdit,
+         meta: {
+            requiresAuth: true
+         }
       },
       {
          path: '/datedata',
          name: 'DateData',
-         component: DateData
+         component: DateData,
+         meta: {
+            requiresAuth: true
+         }
+      },
+      {
+         path: '/datadate/edit/:id',
+         name: 'DataDateEdit',
+         component: DataDateEdit,
+         meta: {
+            requiresAuth: true
+         }
       },
       {
          path: '/home',
          name: 'Home',
-         component: Home
+         component: Home,
+         meta: {
+            requiresAuth: true
+         }
       },
       {
          path: '/maps',
          name: 'Map',
-         component: Maps
+         component: Maps,
+         meta: {
+            requiresAuth: true
+         }
+      },
+      {
+         path: '/maps/edit/:id',
+         name: 'MapsEdit',
+         component: MapsEdit,
+         meta: {
+            requiresAuth: true
+         }
       },
       {
          path: '/line',
@@ -60,7 +98,7 @@ export default new VueRouter({
       },
       {
          path: '/map',
-         name: 'Map',
+         name: 'CMap',
          component: CMap
       },
       {
@@ -72,7 +110,24 @@ export default new VueRouter({
          path: '/logout',
          name: 'Logout',
          redirect: '/'
-
       }
    ]
+});
+
+router.beforeEach((to, from, next) => {
+   if (to.matched.some(record => record.meta.requiresAuth)) {
+      // check if user is authenticated
+      if (localStorage.getItem('Authorization')) {
+         next();
+      } else {
+         router.push('/login')
+      }
+   } else {
+      // allow page is not authenticated
+      next();
+   }
+
 })
+
+
+export default router;

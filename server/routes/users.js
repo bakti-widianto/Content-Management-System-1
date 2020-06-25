@@ -10,13 +10,22 @@ const rahasia = 'iniRahasiaYa';
 
 /* GET users listing. */
 router.get('/list', function (req, res) {
+  let response = [];
   Users.find({})
     .then(result => {
-      res.status(200).json(result);
+      response = result.map(item=>{
+        return{
+          _id : item._id,
+          email : item.email,
+          password : item.password,
+          token : item.token
+        }
+      })
+      res.status(200).json(response);
     })
     .catch(err => {
       res.status(500).json({
-        message: err
+        response
       });
     })
 })
@@ -34,7 +43,8 @@ router.post('/register', function (req, res, next) {
       .then(result => {
         if (result) {
           response.message = 'Email already exist';
-          return res.status(500).json(response);
+          console.log(response)
+          return res.status(200).json(response);
         } else {
           var token = jwt.sign({ email: email }, rahasia);
           let user = new Users({
@@ -118,7 +128,7 @@ router.post('/login', function (req, res, next) {
     })
     .catch(err => {
       response.message = "Email doesn't exist"
-      res.status(500).json(response);
+      res.status(200).json(response);
     })
 })
 

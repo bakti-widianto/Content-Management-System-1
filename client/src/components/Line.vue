@@ -1,24 +1,24 @@
 <template>
   <div>
-    <h1>Ini halaman {{msg}}</h1>
-    <button v-on:click="getRouteData">get Data</button>
+    <h1>Halaman Line</h1>
+    <div id="chart-line"></div>
   </div>
 </template>
 
 <script>
-import Navbar from "./Navbar.vue";
+import { lineChart } from "../chart";
 
 export default {
-  
   data() {
-    return {
-      msg: "Line"
-    };
+    return {};
   },
-  methods:{
-     getRouteData (){
-        console.log(this.$route)
-     }
+  mounted() {
+    axios
+      .get("http://localhost:3000/api/datadate/")
+      .then(response => {
+        lineChart(response.data);
+      })
+      .catch(err => console.log(err));
   }
 };
 </script>

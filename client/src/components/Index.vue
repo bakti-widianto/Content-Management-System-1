@@ -4,7 +4,7 @@
       <main role="main" class="inner cover dashboard-main">
         <div class="card ">
           <h5 class="card-header bg-primary" style="color: white">
-             Welcome to Dashboard
+             <i class="far fa-bookmark">  Welcome to Dashboard</i>
           </h5>
           <div class="card-body">
             <router-link to="/line" class="card-title btn btn-outline-danger btn-lg btn-block"

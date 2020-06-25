@@ -1,12 +1,17 @@
 <template>
   <div>
     <navbar></navbar>
-    <h1>Ini halaman {{msg}}</h1>
+    <div class="container text-center mt-3">
+      <div class="alert alert-secondary" role="alert">
+        <h3>Welcome {{user}}</h3>
+      </div>
+      
+    </div>
   </div>
 </template>
 
 <script>
-import Navbar from './Navbar.vue'
+import Navbar from "./Navbar.vue";
 
 export default {
   components: {
@@ -14,8 +19,11 @@ export default {
   },
   data() {
     return {
-      msg: "Home"
+      user: ""
     };
+  },
+  mounted() {
+    this.user = localStorage.getItem("email");
   }
 };
 </script>
