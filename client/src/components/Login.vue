@@ -118,6 +118,8 @@
 </template>
 
 <script>
+
+
 export default {
   data() {
     return {
@@ -137,9 +139,8 @@ export default {
           password: this.password
         })
         .then(response => {
-          console.log(response);
+          console.log("then", response);
           if (response.data.message == "Login success!") {
-            console.log(response.data.data.email);
             localStorage.setItem("Authorization", response.data.token);
             localStorage.setItem("email", response.data.data.email);
             this.$router.push("/home");
@@ -152,10 +153,12 @@ export default {
           } else if (response.data.message == "Email doesn't exist") {
             return alert("Email doesn't registered");
           } else {
-            console.log("connection to api doesn't work");
+            console.log(response.data);
           }
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+          console.log("kepencet kok");
+        });
     },
     handleRegister(e) {
       e.preventDefault();
@@ -167,12 +170,12 @@ export default {
             retypepassword: this.retypepassword
           })
           .then(response => {
+            console.log("then", response);
             if (response.data.message == "Email already exist") {
               return alert(
                 "this email has been registered, please try again with other email"
               );
             } else {
-              console.log(response);
               if (response.data.message == "register success") {
                 localStorage.setItem("Authorization", response.data.token);
                 localStorage.setItem("email", response.data.data.email);
@@ -189,9 +192,9 @@ export default {
               }
             }
           })
-          .catch(error => console.log(error));
+          .catch(error => console.log("catch", error));
       } else {
-        return alert(`password doesn't try again`);
+        return alert(`password doesn't match try again`);
       }
     }
   }

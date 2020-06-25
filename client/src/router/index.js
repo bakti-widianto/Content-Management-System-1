@@ -116,7 +116,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
    if (to.matched.some(record => record.meta.requiresAuth)) {
-      // check if user is authenticated
+      // check if page is restrictedted
       if (localStorage.getItem('Authorization')) {
          next();
       } else {
