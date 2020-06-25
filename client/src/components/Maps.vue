@@ -6,18 +6,29 @@
       <hr />
       <!-- Add collapse start -->
       <div class="mt-3 mb-2 mr-auto ml-auto" style="width: 70rem;">
-        <p>
-          <!-- button collapse start -->
-          <button
-            class="btn btn-primary"
-            type="button"
-            data-toggle="collapse"
-            data-target="#collapseAdd"
-            aria-expanded="false"
-            aria-controls="collapseAdd"
-          >add new data</button>
-          <!-- button collapse end -->
-        </p>
+        <div class="row">
+          <div class="col">
+            <p>
+              <!-- button collapse start -->
+              <button
+                class="btn btn-primary"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapseAdd"
+                aria-expanded="false"
+                aria-controls="collapseAdd"
+              >add new data</button>
+              <!-- button collapse end -->
+            </p>
+          </div>
+          <div class="col offset-8">
+            <p>
+              <router-link to="/map">
+                <button class="btn btn-primary" type="button">To Maps</button>
+              </router-link>
+            </p>
+          </div>
+        </div>
         <div class="collapse" id="collapseAdd">
           <div class="card card-body">
             <form>
@@ -197,7 +208,7 @@ export default {
               title: "Your data has been saved",
               showConfirmButton: false,
               timer: 1000
-            })
+            });
           } else {
             console.log("internal server error to Add");
           }
@@ -218,24 +229,23 @@ export default {
       }).then(result => {
         if (result.value) {
           axios
-        .delete("http://localhost:3000/api/maps/" + id)
-        .then(response => {
-          console.log(response);
-          if (response.data.success === true) {
-            this.loadData();
-          } else {
-            console.log("internal server error to delete");
-          }
-        })
-        .catch(err => console.log(err));
+            .delete("http://localhost:3000/api/maps/" + id)
+            .then(response => {
+              console.log(response);
+              if (response.data.success === true) {
+                this.loadData();
+              } else {
+                console.log("internal server error to delete");
+              }
+            })
+            .catch(err => console.log(err));
 
-        this.$swal({
+          this.$swal({
             icon: "success",
             title: "Data has been deleted",
             showConfirmButton: false,
             timer: 1200
-            });
-        
+          });
         } else {
           this.$swal({
             icon: "info",
@@ -244,7 +254,7 @@ export default {
             timer: 1200
           });
         }
-      })
+      });
     },
     searchData() {
       let body = {};

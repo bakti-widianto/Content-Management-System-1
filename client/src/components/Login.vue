@@ -143,10 +143,15 @@ export default {
             localStorage.setItem("Authorization", response.data.token);
             localStorage.setItem("email", response.data.data.email);
             this.$router.push("/home");
-          } else if(response.data.message == "Email doesn't exist"){
-            return alert("Email doesn't registered")
-          } 
-          else {
+            this.$swal({
+              icon: "success",
+              title: "Login success",
+              showConfirmButton: false,
+              timer: 1200
+            });
+          } else if (response.data.message == "Email doesn't exist") {
+            return alert("Email doesn't registered");
+          } else {
             console.log("connection to api doesn't work");
           }
         })
@@ -171,9 +176,16 @@ export default {
               if (response.data.message == "register success") {
                 localStorage.setItem("Authorization", response.data.token);
                 localStorage.setItem("email", response.data.data.email);
-                this.$router.push('/home');
+                this.$router.push("/home");
+                this.$swal({
+                  icon: "success",
+                  title: "You've been registered",
+                  text: "welcome to admin page!",
+                  showConfirmButton: false,
+                  timer: 1200
+                });
               } else {
-                console.log("something wrong please try again later")
+                console.log("something wrong please try again later");
               }
             }
           })

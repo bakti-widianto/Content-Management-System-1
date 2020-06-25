@@ -6,18 +6,27 @@
       <hr />
       <!-- Add collapse start -->
       <div class="mt-3 mb-2 mr-auto ml-auto" style="width: 70rem;">
-        <p>
-          <!-- button collapse start -->
-          <button
-            class="btn btn-primary"
-            type="button"
-            data-toggle="collapse"
-            data-target="#collapseAdd"
-            aria-expanded="false"
-            aria-controls="collapseAdd"
-          >add new data</button>
-          <!-- button collapse end -->
-        </p>
+        <div class="row">
+          <div class="col">
+            <p>
+              <!-- button collapse start -->
+              <button
+                class="btn btn-primary"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapseAdd"
+                aria-expanded="false"
+                aria-controls="collapseAdd"
+              >add new data</button>
+              <!-- button collapse end -->
+            </p>
+          </div>
+          <div class="col offset-8">
+            <p>
+                <router-link to="/pie"><button class="btn btn-primary" type="button">To Pie Chart</button></router-link>
+            </p>
+          </div>
+        </div>
         <div class="collapse" id="collapseAdd">
           <div class="card card-body">
             <form>
@@ -197,7 +206,7 @@ export default {
               title: "Your data has been saved",
               showConfirmButton: false,
               timer: 1000
-            })
+            });
           } else {
             console.log("internal server error to Add");
           }
