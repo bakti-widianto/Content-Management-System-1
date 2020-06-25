@@ -2,7 +2,7 @@
   <div>
     <navbar></navbar>
     <div class="container">
-      <h1 class="text-center mt-2">Date Data Dashboard</h1>
+      <h1 class="text-center mt-2 judul-dashboard">Date Data Dashboard</h1>
       <hr />
       <!-- Add collapse start -->
       <div class="mt-3 mb-2 mr-auto ml-auto" style="width: 70rem;">
@@ -17,14 +17,18 @@
                 data-target="#collapseAdd"
                 aria-expanded="false"
                 aria-controls="collapseAdd"
-              >add new data</button>
+              >
+                <i class="fas fa-plus"></i> add new
+              </button>
               <!-- button collapse end -->
             </p>
           </div>
           <div class="col offset-8">
             <p>
               <router-link to="/line">
-                <button class="btn btn-primary" type="button">To Line Chart</button>
+                <div class="router-icon">
+                  <i class="fas fa-chart-line"></i>
+                </div>
               </router-link>
             </p>
           </div>
@@ -278,3 +282,12 @@ export default {
   }
 };
 </script>
+
+<style>
+.router-icon {
+  font-size: 40px;
+}
+.judul-dashboard {
+  font-family: Viga;
+}
+</style>

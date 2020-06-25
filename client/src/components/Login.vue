@@ -66,7 +66,7 @@
                   id="inputEmail"
                   v-model="email"
                   class="form-control"
-                  placeholder="Email address"
+                  placeholder="Enter your email address"
                   required
                 />
               </div>
@@ -80,7 +80,7 @@
                   id="inputPassword"
                   v-model="password"
                   class="form-control"
-                  placeholder="Password"
+                  placeholder="Type your password here"
                   required
                 />
               </div>
@@ -92,7 +92,7 @@
                   id="inputConfirmPassword"
                   v-model="retypepassword"
                   class="form-control"
-                  placeholder="Password"
+                  placeholder="retype your password here"
                   required
                 />
               </div>
@@ -229,7 +229,7 @@ body {
   width: 45%;
   /* Link to your background image using in the property below! */
   background: scroll center
-    url("https://source.unsplash.com/WEQbe2jBg40/414x512");
+    url("https://source.unsplash.com/WLUHO9A_xik/1600x900");
   background-size: cover;
 }
 

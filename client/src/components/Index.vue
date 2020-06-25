@@ -4,7 +4,7 @@
       <main role="main" class="inner cover dashboard-main">
         <div class="card">
           <h5 class="card-header bg-primary" style="color: white">
-            <i class="far fa-bookmark">Welcome to Dashboard</i>
+            <i class="far fa-bookmark"></i><span>Welcome to Dashboard</span>
           </h5>
           <div class="card-body">
             <router-link
@@ -69,9 +69,14 @@ export default {};
   background: #007bff;
   background: linear-gradient(to right, #0062e6, #33aeff);
 }
+
+.card span {
+  font-family: Viga;
+  font-size: 23px;
+}
+
 .card {
   border: 0;
-  border-radius: 1rem;
   box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.3);
   overflow: hidden;
 }
@@ -82,6 +87,4 @@ export default {};
   box-shadow: 0 0.5rem 0.5rem 0 rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
-
-
 </style>
