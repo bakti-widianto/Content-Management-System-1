@@ -2,7 +2,7 @@
   <div>
     <navbar></navbar>
     <div class="container">
-      <h1 class="text-center mt-2">Data Dashboard</h1>
+      <h1 class="text-center mt-2 judul-dashboard">Data Dashboard</h1>
       <hr />
       <!-- Add collapse start -->
       <div class="mt-3 mb-2 mr-auto ml-auto" style="width: 70rem;">
@@ -17,23 +17,25 @@
                 data-target="#collapseAdd"
                 aria-expanded="false"
                 aria-controls="collapseAdd"
-              >add new data</button>
+              >
+                <i class="fas fa-plus"></i> add new
+              </button>
               <!-- button collapse end -->
             </p>
           </div>
           <div class="col offset-7">
-            <p>
+            <div class="router-icon">
               <router-link to="/pie">
-                <button class="btn btn-primary" type="button">To Pie Chart</button>
+                <i class="fas fa-chart-pie"></i>
               </router-link>
-            </p>
+            </div>
           </div>
           <div class="col">
-            <p>
+            <div class="router-icon">
               <router-link to="/bar">
-                <button class="btn btn-primary" type="button">To Bar Chart</button>
+                <i class="fas fa-chart-bar"></i>
               </router-link>
-            </p>
+            </div>
           </div>
         </div>
         <div class="collapse" id="collapseAdd">
@@ -191,7 +193,7 @@ export default {
   },
   methods: {
     loadData() {
-      axios
+      this.$axios
         .get("http://localhost:3000/api/data/")
         .then(response => {
           this.datas = response.data;
@@ -200,7 +202,7 @@ export default {
     },
     handleAdd(e) {
       e.preventDefault();
-      axios
+      this.$axios
         .post("http://localhost:3000/api/data/", {
           letter: this.letter,
           frequency: this.frequency
@@ -236,7 +238,7 @@ export default {
       }).then(result => {
         /* delete api */
         if (result.value) {
-          axios
+          this.$axios
             .delete("http://localhost:3000/api/data/" + id)
             .then(response => {
               console.log(response);
@@ -274,7 +276,7 @@ export default {
       } else if (this.searchLetter) {
         body.letter = this.searchLetter;
       }
-      axios
+      this.$axios
         .post("http://localhost:3000/api/data/search", body)
         .then(response => {
           console.log(response);

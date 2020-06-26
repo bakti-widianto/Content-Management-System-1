@@ -40,7 +40,7 @@ function pieChart(apiData) {
       let data = google.visualization.arrayToDataTable(rawData);
       var options = {
          title: 'Frequency for each subject',
-         width: 700,
+         width: 800,
          height: 400,
          backgroundColor: "transparent",
          is3D: true
@@ -77,5 +77,34 @@ function barChart(apiData) {
    }
 }
 
-export { lineChart, pieChart, barChart };
+function drawMap(apiData) {
+   google.charts.load("current", {
+      packages: ["map"],
+      mapsApiKey: "API_KEY"
+   });
+   google.charts.setOnLoadCallback(drawChart);
+
+   function drawChart() {
+      let rawData = apiData.map(item => [item.lat, item.long, item.title]);
+      rawData.unshift(['Lat', 'Long', 'Name']);
+      let data = google.visualization.arrayToDataTable(rawData)
+
+      const map = new google.visualization.Map(document.getElementById('map-div'));
+      map.draw(data, {
+         mapType: 'styledMap',
+         showTooltip: true,
+         showInfoWindow: true,
+         zoomLevel: 12,
+         useMapTypeControl: true,
+         mapTypeIds: ['styledMap', 'redEverything', 'imBlue'],
+         maps: {
+            styledMap: {
+               name: 'Styled Map'
+            }
+         }
+      });
+   }
+}
+
+export { lineChart, pieChart, barChart, drawMap };
 

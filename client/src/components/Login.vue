@@ -66,7 +66,7 @@
                   id="inputEmail"
                   v-model="email"
                   class="form-control"
-                  placeholder="Email address"
+                  placeholder="Enter your email address"
                   required
                 />
               </div>
@@ -80,7 +80,7 @@
                   id="inputPassword"
                   v-model="password"
                   class="form-control"
-                  placeholder="Password"
+                  placeholder="Type your password here"
                   required
                 />
               </div>
@@ -92,7 +92,7 @@
                   id="inputConfirmPassword"
                   v-model="retypepassword"
                   class="form-control"
-                  placeholder="Password"
+                  placeholder="retype your password here"
                   required
                 />
               </div>
@@ -131,15 +131,14 @@ export default {
   methods: {
     handleLogin(e) {
       e.preventDefault();
-      axios
+      this.$axios
         .post("http://localhost:3000/api/users/login", {
           email: this.email,
           password: this.password
         })
         .then(response => {
-          console.log(response);
+          console.log("then", response);
           if (response.data.message == "Login success!") {
-            console.log(response.data.data.email);
             localStorage.setItem("Authorization", response.data.token);
             localStorage.setItem("email", response.data.data.email);
             this.$router.push("/home");
@@ -152,27 +151,29 @@ export default {
           } else if (response.data.message == "Email doesn't exist") {
             return alert("Email doesn't registered");
           } else {
-            console.log("connection to api doesn't work");
+            console.log(response.data);
           }
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+          console.log("kepencet kok");
+        });
     },
     handleRegister(e) {
       e.preventDefault();
       if (this.password === this.retypepassword) {
-        axios
+        this.$axios
           .post("http://localhost:3000/api/users/register", {
             email: this.email,
             password: this.password,
             retypepassword: this.retypepassword
           })
           .then(response => {
+            console.log("then", response);
             if (response.data.message == "Email already exist") {
               return alert(
                 "this email has been registered, please try again with other email"
               );
             } else {
-              console.log(response);
               if (response.data.message == "register success") {
                 localStorage.setItem("Authorization", response.data.token);
                 localStorage.setItem("email", response.data.data.email);
@@ -189,9 +190,9 @@ export default {
               }
             }
           })
-          .catch(error => console.log(error));
+          .catch(error => console.log("catch", error));
       } else {
-        return alert(`password doesn't try again`);
+        return alert(`password doesn't match try again`);
       }
     }
   }
@@ -226,7 +227,7 @@ body {
   width: 45%;
   /* Link to your background image using in the property below! */
   background: scroll center
-    url("https://source.unsplash.com/WEQbe2jBg40/414x512");
+    url("https://source.unsplash.com/WLUHO9A_xik/1600x900");
   background-size: cover;
 }
 

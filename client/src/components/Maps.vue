@@ -2,7 +2,7 @@
   <div>
     <navbar></navbar>
     <div class="container">
-      <h1 class="text-center mt-2">Maps Dashboard</h1>
+      <h1 class="text-center mt-2 judul-dashboard">Maps Dashboard</h1>
       <hr />
       <!-- Add collapse start -->
       <div class="mt-3 mb-2 mr-auto ml-auto" style="width: 70rem;">
@@ -17,16 +17,18 @@
                 data-target="#collapseAdd"
                 aria-expanded="false"
                 aria-controls="collapseAdd"
-              >add new data</button>
+              >
+                <i class="fas fa-plus"></i> add new
+              </button>
               <!-- button collapse end -->
             </p>
           </div>
           <div class="col offset-8">
-            <p>
+            <div class="router-icon">
               <router-link to="/map">
-                <button class="btn btn-primary" type="button">To Maps</button>
+                <i class="fas fa-globe-americas"></i>
               </router-link>
-            </p>
+            </div>
           </div>
         </div>
         <div class="collapse" id="collapseAdd">
@@ -179,7 +181,7 @@ export default {
   },
   methods: {
     loadData() {
-      axios
+      this.$axios
         .get("http://localhost:3000/api/maps/")
         .then(response => {
           this.datas = response.data;
@@ -190,7 +192,7 @@ export default {
       e.preventDefault();
       // console.log(typeof this.letter)
       console.log(this.title, this.latitude, this.longitude);
-      axios
+      this.$axios
         .post("http://localhost:3000/api/maps/", {
           title: this.title,
           lat: this.latitude,
@@ -228,7 +230,7 @@ export default {
         showLoaderOnConfirm: true
       }).then(result => {
         if (result.value) {
-          axios
+          this.$axios
             .delete("http://localhost:3000/api/maps/" + id)
             .then(response => {
               console.log(response);
@@ -261,7 +263,7 @@ export default {
       if (this.searchTitle) {
         body.title = this.searchTitle;
       }
-      axios
+      this.$axios
         .post("http://localhost:3000/api/maps/search", body)
         .then(response => {
           console.log(response);
