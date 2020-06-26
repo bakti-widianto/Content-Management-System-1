@@ -62,7 +62,7 @@ export default {
     handleUpdate(e) {
       e.preventDefault();
       console.log(this.$route.params.id);
-      axios({
+      this.$axios({
         method: "put",
         url: "http://localhost:3000/api/datadate/" + this.$route.params.id,
         data: {
@@ -88,7 +88,7 @@ export default {
     }
   },
   mounted() {
-    axios({
+    this.$axios({
       method: "get",
       url: "http://localhost:3000/api/datadate/" + this.$route.params.id
     })

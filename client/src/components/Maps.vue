@@ -181,7 +181,7 @@ export default {
   },
   methods: {
     loadData() {
-      axios
+      this.$axios
         .get("http://localhost:3000/api/maps/")
         .then(response => {
           this.datas = response.data;
@@ -192,7 +192,7 @@ export default {
       e.preventDefault();
       // console.log(typeof this.letter)
       console.log(this.title, this.latitude, this.longitude);
-      axios
+      this.$axios
         .post("http://localhost:3000/api/maps/", {
           title: this.title,
           lat: this.latitude,
@@ -230,7 +230,7 @@ export default {
         showLoaderOnConfirm: true
       }).then(result => {
         if (result.value) {
-          axios
+          this.$axios
             .delete("http://localhost:3000/api/maps/" + id)
             .then(response => {
               console.log(response);
@@ -263,7 +263,7 @@ export default {
       if (this.searchTitle) {
         body.title = this.searchTitle;
       }
-      axios
+      this.$axios
         .post("http://localhost:3000/api/maps/search", body)
         .then(response => {
           console.log(response);

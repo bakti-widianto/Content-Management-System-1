@@ -32,7 +32,7 @@
         <router-link to="/logout">
           <button
             @click="logout"
-            class="btn btn-outline-success my-2 my-sm-0 mr-5 text-success logout-btn"
+            class="btn btn-outline-success my-2 my-sm-0 mr-5 logout-btn"
           >Logout</button>
         </router-link>
       </div>
@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     logout: function() {
-      axios
+      this.$axios
         .get("http://localhost:3000/api/users/logout", {
           headers: {
             Authorization: localStorage.getItem("Authorization")
@@ -78,6 +78,20 @@ nav {
 }
 .nav-link {
   font-weight: 100;
+}
+
+.logout-btn {
+  border-radius: 20px;
+}
+
+.nav-link:hover::after {
+  content: "";
+  display: block;
+  border-bottom: 3px solid #0b63dc;
+  width: 20px;
+  margin: auto;
+  padding-bottom: 5px;
+  margin-bottom: -8px;
 }
 
 .navbar-brand {

@@ -32,7 +32,7 @@ export default {
     };
   },
   mounted() {
-    axios
+    this.$axios
       .get("http://localhost:3000/api/data/")
       .then(response => {
         barChart(response.data);

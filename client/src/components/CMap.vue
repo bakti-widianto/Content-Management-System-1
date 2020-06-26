@@ -3,11 +3,9 @@
     <div class="container d-flex w-70 h-100 p-3 mt-5 mb-5 flex-column">
       <div class="card">
         <div class="card-header">
-
           <div class="row">
-
             <div class="col offset-1 judul-client">
-              <i class="far fa-bookmark "></i> Maps
+              <i class="far fa-bookmark"></i> Maps
             </div>
 
             <div class="col offset-5 back-home">
@@ -31,12 +29,10 @@ import { drawMap } from "../chart";
 
 export default {
   data() {
-    return {
-     
-    };
+    return {};
   },
   mounted() {
-    axios
+    this.$axios
       .get("http://localhost:3000/api/maps/")
       .then(response => {
         drawMap(response.data);
@@ -46,7 +42,6 @@ export default {
 };
 </script>
 <style scoped>
-
 .judul-client {
   font-family: Viga;
   font-size: 28px;

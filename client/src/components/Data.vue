@@ -193,7 +193,7 @@ export default {
   },
   methods: {
     loadData() {
-      axios
+      this.$axios
         .get("http://localhost:3000/api/data/")
         .then(response => {
           this.datas = response.data;
@@ -202,7 +202,7 @@ export default {
     },
     handleAdd(e) {
       e.preventDefault();
-      axios
+      this.$axios
         .post("http://localhost:3000/api/data/", {
           letter: this.letter,
           frequency: this.frequency
@@ -238,7 +238,7 @@ export default {
       }).then(result => {
         /* delete api */
         if (result.value) {
-          axios
+          this.$axios
             .delete("http://localhost:3000/api/data/" + id)
             .then(response => {
               console.log(response);
@@ -276,7 +276,7 @@ export default {
       } else if (this.searchLetter) {
         body.letter = this.searchLetter;
       }
-      axios
+      this.$axios
         .post("http://localhost:3000/api/data/search", body)
         .then(response => {
           console.log(response);

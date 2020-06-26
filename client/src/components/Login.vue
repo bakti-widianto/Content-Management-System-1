@@ -118,8 +118,6 @@
 </template>
 
 <script>
-
-
 export default {
   data() {
     return {
@@ -133,7 +131,7 @@ export default {
   methods: {
     handleLogin(e) {
       e.preventDefault();
-      axios
+      this.$axios
         .post("http://localhost:3000/api/users/login", {
           email: this.email,
           password: this.password
@@ -163,7 +161,7 @@ export default {
     handleRegister(e) {
       e.preventDefault();
       if (this.password === this.retypepassword) {
-        axios
+        this.$axios
           .post("http://localhost:3000/api/users/register", {
             email: this.email,
             password: this.password,

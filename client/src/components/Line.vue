@@ -8,7 +8,9 @@
               <i class="far fa-bookmark"></i> Line Chart
             </div>
             <div class="col offset-6 back-home">
-              <router-link to="/datedata"><i class="fas fa-table"></i></router-link>
+              <router-link to="/datedata">
+                <i class="fas fa-table"></i>
+              </router-link>
             </div>
           </div>
         </div>
@@ -29,7 +31,7 @@ export default {
     return {};
   },
   mounted() {
-    axios
+    this.$axios
       .get("http://localhost:3000/api/datadate/")
       .then(response => {
         lineChart(response.data);
