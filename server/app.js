@@ -14,6 +14,7 @@ var mapsRouter = require('./routes/maps');
 
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/cmsdb', { useNewUrlParser: true, useUnifiedTopology: true });
+console.log(`You're connected to server!`)
 
 var app = express();
 
