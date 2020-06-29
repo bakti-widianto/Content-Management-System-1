@@ -166,6 +166,7 @@
 <script>
 import Navbar from "./Navbar.vue";
 
+
 export default {
   components: {
     navbar: Navbar
@@ -197,6 +198,7 @@ export default {
         .get("http://localhost:3000/api/data/")
         .then(response => {
           this.datas = response.data;
+          this.pages = Math.ceil(response.data.length / this.perPages);
         })
         .catch(err => console.log(err));
     },
