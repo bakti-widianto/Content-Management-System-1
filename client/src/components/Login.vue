@@ -218,9 +218,9 @@ body {
 }
 
 .card-signin .card-title {
-  margin-bottom: 2rem;
-  font-weight: 300;
-  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 400;
+  font-size: 28px;
 }
 
 .card-signin .card-img-left {

@@ -80,7 +80,7 @@ function barChart(apiData) {
 function drawMap(apiData) {
    google.charts.load("current", {
       packages: ["map"],
-      mapsApiKey: "API_KEY"
+      mapsApiKey: "AIzaSyDvp5CKHX1e1_TP_JizSu5gW4oS4rb1Yy0"
    });
    google.charts.setOnLoadCallback(drawChart);
 
