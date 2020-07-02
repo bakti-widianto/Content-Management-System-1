@@ -33,7 +33,7 @@ export default {
   },
   mounted() {
     this.$axios
-      .get("http://localhost:3000/api/data/")
+      .get("http://54.255.12.97:3000/api/data/")
       .then(response => {
         pieChart(response.data);
       })

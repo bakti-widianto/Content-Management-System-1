@@ -32,7 +32,7 @@ export default {
   },
   mounted() {
     this.$axios
-      .get("http://localhost:3000/api/datadate/")
+      .get("http://54.255.12.97:3000/api/datadate/")
       .then(response => {
         lineChart(response.data);
       })

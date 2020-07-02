@@ -1,7 +1,7 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <router-link to="/" class="navbar-brand">Content Management System</router-link>
+    <nav class="navbar navbar-expand-lg navbar-dark  bg-dark">
+      <router-link to="/" class="navbar-brand" exact>Content Management System</router-link>
       <button
         class="navbar-toggler"
         type="button"
@@ -20,13 +20,13 @@
             <router-link to="/home" class="nav-link">Home</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/data" class="nav-link">Data</router-link>
+            <router-link to="/data" class="nav-link" exact>Data</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/datedata" class="nav-link">Date Data</router-link>
+            <router-link to="/datedata" class="nav-link" exact>Date Data</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/maps" class="nav-link">Maps</router-link>
+            <router-link to="/maps" class="nav-link" exact>Maps</router-link>
           </li>
         </ul>
         <router-link to="/logout">
@@ -48,7 +48,7 @@ export default {
   methods: {
     logout: function() {
       this.$axios
-        .get("http://localhost:3000/api/users/logout", {
+        .get("http://54.255.12.97:3000/api/users/logout", {
           headers: {
             Authorization: localStorage.getItem("Authorization")
           }
@@ -87,11 +87,16 @@ nav {
 .nav-link:hover::after {
   content: "";
   display: block;
-  border-bottom: 3px solid #0b63dc;
+  border-bottom: 3px solid #eee;
   width: 20px;
   margin: auto;
   padding-bottom: 5px;
   margin-bottom: -8px;
+}
+
+.router-link-active{
+  background: grey;
+  border-radius: 100px;
 }
 
 .navbar-brand {

@@ -210,7 +210,7 @@ export default {
   methods: {
     loadData() {
       this.$axios
-        .get("http://localhost:3000/api/datadate/")
+        .get("http://54.255.12.97:3000/api/datadate/")
         .then(response => {
           this.datas = response.data;
           this.pagination.pages = Math.ceil(
@@ -223,7 +223,7 @@ export default {
       e.preventDefault();
       // console.log(typeof this.letter)
       this.$axios
-        .post("http://localhost:3000/api/datadate/", {
+        .post("http://54.255.12.97:3000/api/datadate/", {
           letter: this.letter,
           frequency: this.frequency
         })
@@ -259,7 +259,7 @@ export default {
       }).then(result => {
         if (result.value) {
           this.$axios
-            .delete("http://localhost:3000/api/datadate/" + id)
+            .delete("http://54.255.12.97:3000/api/datadate/" + id)
             .then(response => {
               console.log(response);
               if (response.data.success === true) {
@@ -296,7 +296,7 @@ export default {
         body.letter = this.searchLetter;
       }
       this.$axios
-        .post("http://localhost:3000/api/datadate/search", body)
+        .post("http://54.255.12.97:3000/api/datadate/search", body)
         .then(response => {
           this.datas = response.data;
         })

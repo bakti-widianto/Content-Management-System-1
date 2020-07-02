@@ -77,6 +77,7 @@ function barChart(apiData) {
    }
 }
 
+/* Google Maps */
 function drawMap(apiData) {
    google.charts.load("current", {
       packages: ["map"],
@@ -90,19 +91,34 @@ function drawMap(apiData) {
       let data = google.visualization.arrayToDataTable(rawData)
 
       const map = new google.visualization.Map(document.getElementById('map-div'));
-      map.draw(data, {
-         mapType: 'styledMap',
+
+      let url =
+         "https://icons.iconarchive.com/icons/icons-land/vista-map-markers/48/";
+      let options = {
          showTooltip: true,
          showInfoWindow: true,
-         zoomLevel: 12,
-         useMapTypeControl: true,
-         mapTypeIds: ['styledMap', 'redEverything', 'imBlue'],
-         maps: {
-            styledMap: {
-               name: 'Styled Map'
+         // zoomLevel: 12,
+         icons: {
+            blue: {
+               normal: url + 'Map-Marker-Ball-Azure-icon.png',
+               selected: url + 'Map-Marker-Ball-Right-Azure-icon.png'
+            },
+            green: {
+               normal: url + 'Map-Marker-Push-Pin-1-Chartreuse-icon.png',
+               selected: url + 'Map-Marker-Push-Pin-1-Right-Chartreuse-icon.png'
+            },
+            pink: {
+               normal: url + 'Map-Marker-Ball-Pink-icon.png',
+               selected: url + 'Map-Marker-Ball-Right-Pink-icon.png'
             }
-         }
-      });
+         },
+         useMapTypeControl: true,
+         mapType: "terrain",
+         showLine: true,
+         enableScrollWheel: true
+      };
+
+      map.draw(data, options);
    }
 }
 
