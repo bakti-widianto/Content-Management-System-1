@@ -9,6 +9,3 @@ Stack technologies :
 - Vue.js
 - Google Chart
 - EC2 AWS
-
-Demo App :
-http://54.255.12.97:5000
