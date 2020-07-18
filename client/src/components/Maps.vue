@@ -206,7 +206,7 @@ export default {
   methods: {
     loadData() {
       this.$axios
-        .get("http://54.255.12.97:3000/api/maps/")
+        .get("http://localhost:3000/api/maps/")
         .then(response => {
           this.datas = response.data;
           this.pagination.pages = Math.ceil(
@@ -220,7 +220,7 @@ export default {
       // console.log(typeof this.letter)
       console.log(this.title, this.latitude, this.longitude);
       this.$axios
-        .post("http://54.255.12.97:3000/api/maps/", {
+        .post("http://localhost:3000/api/maps/", {
           title: this.title,
           lat: this.latitude,
           long: this.longitude
@@ -258,7 +258,7 @@ export default {
       }).then(result => {
         if (result.value) {
           this.$axios
-            .delete("http://54.255.12.97:3000/api/maps/" + id)
+            .delete("http://localhost:3000/api/maps/" + id)
             .then(response => {
               console.log(response);
               if (response.data.success === true) {
@@ -291,7 +291,7 @@ export default {
         body.title = this.searchTitle;
       }
       this.$axios
-        .post("http://54.255.12.97:3000/api/maps/search", body)
+        .post("http://localhost:3000/api/maps/search", body)
         .then(response => {
           this.datas = response.data;
         })

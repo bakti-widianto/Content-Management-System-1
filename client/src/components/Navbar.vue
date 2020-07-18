@@ -48,7 +48,7 @@ export default {
   methods: {
     logout: function() {
       this.$axios
-        .get("http://54.255.12.97:3000/api/users/logout", {
+        .get("http://localhost:3000/api/users/logout", {
           headers: {
             Authorization: localStorage.getItem("Authorization")
           }

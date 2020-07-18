@@ -64,7 +64,7 @@ export default {
       console.log(this.$route.params.id);
       this.$axios({
         method: "put",
-        url: "http://54.255.12.97:3000/api/data/" + this.$route.params.id,
+        url: "http://localhost:3000/api/data/" + this.$route.params.id,
         data: {
           letter: this.letter,
           frequency: this.frequency
@@ -91,7 +91,7 @@ export default {
   mounted() {
     this.$axios({
       method: "get",
-      url: "http://54.255.12.97:3000/api/data/" + this.$route.params.id
+      url: "http://localhost:3000/api/data/" + this.$route.params.id
     })
       .then(response => {
         console.log(response);

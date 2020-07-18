@@ -189,7 +189,7 @@ describe('maps', function () {
                   res2.should.have.status(200);
                   res2.should.be.json;
                   res2.body.should.be.a('array');
-                  res2.body.length.should.equal(1);
+                  res2.body.length.should.equal(2);
                   res2.body[0].should.have.property('_id');
                   res2.body[0].should.have.property('title');
                   res2.body[0].should.have.property('lat');

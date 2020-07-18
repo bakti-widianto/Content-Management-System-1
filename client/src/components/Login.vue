@@ -132,7 +132,7 @@ export default {
     handleLogin(e) {
       e.preventDefault();
       this.$axios
-        .post("http://54.255.12.97:3000/api/users/login", {
+        .post("http://localhost:3000/api/users/login", {
           email: this.email,
           password: this.password
         })
@@ -162,7 +162,7 @@ export default {
       e.preventDefault();
       if (this.password === this.retypepassword) {
         this.$axios
-          .post("http://54.255.12.97:3000/api/users/register", {
+          .post("http://localhost:3000/api/users/register", {
             email: this.email,
             password: this.password,
             retypepassword: this.retypepassword
